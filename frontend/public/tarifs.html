@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tarifs · Simplif'IA France</title>
+<meta name="description" content="3 plans pour gérer vos démarches administratives. Gratuit, Premium 9,99 €/mois, Pro 49 €/mois.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<style>
+  .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin: 40px 0; }
+  @media (max-width: 900px) { .pricing-grid { grid-template-columns: 1fr; } }
+  .price-card { background: white; border: 2px solid var(--border); border-radius: 24px; padding: 36px; transition: all 0.3s; position: relative; }
+  .price-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+  .price-card.featured {
+    background: linear-gradient(160deg, var(--bleu), var(--bleu-clair));
+    color: white; border: none;
+    box-shadow: 0 30px 60px rgba(0,0,145,0.25); transform: scale(1.04);
+  }
+  .price-card.featured:hover { transform: scale(1.06) translateY(-4px); }
+  .price-tag {
+    position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+    background: var(--rouge); color: white; padding: 6px 16px;
+    border-radius: 999px; font-size: 12px; font-weight: 800;
+    text-transform: uppercase; letter-spacing: 1px;
+    box-shadow: 0 4px 12px rgba(225,0,15,0.3);
+  }
+  .price-name { font-size: 14px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; opacity: 0.7; margin-bottom: 14px; }
+  .price-amount { font-size: 56px; font-weight: 800; line-height: 1; margin-bottom: 4px; }
+  .price-amount span { font-size: 17px; opacity: 0.7; font-weight: 500; }
+  .price-desc { font-size: 14px; margin-bottom: 28px; opacity: 0.85; }
+  .price-features { list-style: none; margin-bottom: 28px; }
+  .price-features li { padding: 10px 0; font-size: 14px; display: flex; gap: 12px; align-items: flex-start; line-height: 1.5; }
+  .price-features li::before { content: '✓'; color: var(--vert); font-weight: 800; flex-shrink: 0; font-size: 16px; }
+  .price-card.featured .price-features li::before { color: white; }
+  .price-card .btn { width: 100%; justify-content: center; }
+
+  .compare-table { width: 100%; border-collapse: collapse; margin: 40px 0; background: white; border-radius: 16px; overflow: hidden; box-shadow: var(--shadow-sm); }
+  .compare-table th, .compare-table td { padding: 16px 20px; text-align: center; border-bottom: 1px solid var(--border); }
+  .compare-table th { background: var(--bleu-pale); color: var(--bleu); font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .compare-table th:first-child, .compare-table td:first-child { text-align: left; font-weight: 600; }
+  .compare-table tr:hover td { background: var(--gris-soft); }
+  .compare-yes { color: var(--vert); font-weight: 800; font-size: 18px; }
+  .compare-no { color: #ccc; font-size: 18px; }
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="index.html" class="site-nav-brand">
+    <div class="site-nav-mark"></div>
+    Simplif'IA <span style="color:var(--rouge);margin-left:-2px;">France</span>
+  </a>
+  <div class="site-nav-links">
+    <a href="fonctionnalites.html">Fonctionnalités</a>
+    <a href="tarifs.html" style="color:var(--bleu);font-weight:700;">Tarifs</a>
+    <a href="apropos.html">À propos</a>
+    <a href="aide.html">Aide</a>
+    <a href="contact.html">Contact</a>
+  </div>
+  <div class="site-nav-cta">
+    <a href="connexion.html" class="btn btn-ghost btn-sm">Connexion</a>
+    <a href="inscription.html" class="btn btn-primary btn-sm">Essayer gratuitement</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="container">
+    <span class="section-tag">Tarifs simples et transparents</span>
+    <h1>Un prix juste,<br><span class="accent">pour tout le monde.</span></h1>
+    <p>Gratuit pour les bénéficiaires de minima sociaux. Premium accessible. Pro pour les aidants. Aucun engagement, annulation en un clic.</p>
+  </div>
+</header>
+
+<section style="padding-top:0;">
+  <div class="container">
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="price-name">Découverte</div>
+        <div class="price-amount">0 €<span>/mois</span></div>
+        <div class="price-desc">Pour découvrir le service et traiter quelques démarches simples.</div>
+        <ul class="price-features">
+          <li>3 documents traduits par mois</li>
+          <li>Coffre-fort jusqu'à 10 documents</li>
+          <li>Avatar IA juridique (voix synthétique standard)</li>
+          <li>1 LRE AR24 incluse / mois (4,68 €/LRE supp.)</li>
+          <li>Catalogue CERFA en lecture seule</li>
+          <li>Support par email (48h)</li>
+        </ul>
+        <a href="inscription.html" class="btn btn-secondary">Commencer gratuitement</a>
+      </div>
+
+      <div class="price-card featured">
+        <span class="price-tag">★ Le plus choisi</span>
+        <div class="price-name">Premium</div>
+        <div class="price-amount">9,99 €<span>/mois</span></div>
+        <div class="price-desc">Tout l'accompagnement administratif au quotidien, sans limite.</div>
+        <ul class="price-features">
+          <li><strong>Documents et CERFA illimités</strong></li>
+          <li>Coffre-fort illimité (chiffrement AES-256)</li>
+          <li><strong>Voix premium ElevenLabs (Maître Léa réaliste)</strong></li>
+          <li>3 LRE AR24 incluses / mois</li>
+          <li>Mode FALC (Facile À Lire) inclus</li>
+          <li>Détection automatique des aides oubliées</li>
+          <li>Sophie, agent IA pour vos courriers (24h/24)</li>
+          <li>Support prioritaire par chat (4h)</li>
+        </ul>
+        <a href="inscription.html?plan=premium" class="btn" style="background:white;color:var(--bleu);">Démarrer 14 jours gratuits</a>
+      </div>
+
+      <div class="price-card">
+        <div class="price-name">Pro / Aidants</div>
+        <div class="price-amount">49 €<span>/mois</span></div>
+        <div class="price-desc">Pour assistantes sociales, RH, experts-comptables et aidants familiaux.</div>
+        <ul class="price-features">
+          <li>Tout le Premium</li>
+          <li><strong>Multi-dossiers (jusqu'à 50 personnes aidées)</strong></li>
+          <li>Tableau de bord équipe et reporting</li>
+          <li>API & intégrations (Webhooks, Zapier)</li>
+          <li>Conformité RGPD entreprise (DPA, audit)</li>
+          <li>10 LRE AR24 incluses / mois</li>
+          <li>Formation dédiée (2 sessions/an)</li>
+          <li>Support dédié 5j/7 (1h)</li>
+        </ul>
+        <a href="contact.html?demande=demo-pro" class="btn btn-secondary">Demander une démo</a>
+      </div>
+    </div>
+
+    <div style="background:linear-gradient(135deg,var(--vert-soft),white);border:2px solid var(--vert);border-radius:24px;padding:32px;text-align:center;margin:40px 0;">
+      <div style="font-size:32px;margin-bottom:8px;">💚</div>
+      <h3 style="color:var(--vert);margin-bottom:8px;">Premium gratuit pour les bénéficiaires de minima sociaux</h3>
+      <p style="color:var(--text-soft);margin-bottom:18px;">Vous touchez le RSA, l'AAH, l'ASPA ou la prime d'activité ? Le plan Premium est <strong>gratuit pour vous</strong>.</p>
+      <p style="font-size:13px;color:var(--text-mute);margin-bottom:14px;">Sur présentation de votre avis d'imposition (RFR &lt; 12 271 € / part). Vérification automatique, gratuité activée immédiatement.</p>
+      <a href="inscription.html?plan=precarite" class="btn btn-primary">Activer la gratuité</a>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--gris-soft);">
+  <div class="container">
+    <div class="text-center mb-4">
+      <span class="section-tag">Comparatif détaillé</span>
+      <h2>Comparez les 3 plans</h2>
+    </div>
+    <div style="overflow-x:auto;">
+      <table class="compare-table">
+        <thead>
+          <tr><th>Fonctionnalité</th><th>Découverte</th><th>Premium</th><th>Pro</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Avatar IA juridique (Maître Léa)</td><td><span class="compare-yes">✓</span></td><td><span class="compare-yes">✓</span></td><td><span class="compare-yes">✓</span></td></tr>
+          <tr><td>Voix premium ElevenLabs (réaliste)</td><td><span class="compare-no">—</span></td><td><span class="compare-yes">✓</span></td><td><span class="compare-yes">✓</span></td></tr>
+          <tr><td>Sophie · Agent IA emails 24h/24</td><td><span class="compare-no">—</span></td><td><span class="compare-yes">✓</span></td><td><span class="compare-yes">✓</span></td></tr>
+          <tr><td>Documents dans le coffre-fort</td><td>10 max</td><td>Illimité</td><td>Illimité</td></tr>
+          <tr><td>Démarches CERFA pré-remplies</td><td>3 / mois</td><td>Illimité</td><td>Illimité</td></tr>
+          <tr><td>Traductions anti-jargon (OCR)</td><td>3 / mois</td><td>Illimité</td><td>Illimité</td></tr>
+          <tr><td>LRE AR24 incluses / mois</td><td>1</td><td>3</td><td>10</td></tr>
+          <tr><td>LRE supplémentaire</td><td>4,68 €</td><td>4,68 €</td><td>4,68 €</td></tr>
+          <tr><td>Détection aides non réclamées</td><td><span class="compare-no">—</span></td><td><span class="compare-yes">✓</span></td><td><span class="compare-yes">✓</span></td></tr>
+          <tr><td>Mode FALC (Facile À Lire)</td><td><span class="compare-yes">✓</span></td><td><span class="compare-yes">✓</span></td><td><span class="compare-yes">✓</span></td></tr>
+          <tr><td>Multi-dossiers (proches aidés)</td><td>1</td><td>3</td><td>50</td></tr>
+          <tr><td>API & Webhooks</td><td><span class="compare-no">—</span></td><td><span class="compare-no">—</span></td><td><span class="compare-yes">✓</span></td></tr>
+          <tr><td>Support</td><td>Email 48h</td><td>Chat 4h</td><td>Dédié 1h</td></tr>
+          <tr><td>Formation</td><td><span class="compare-no">—</span></td><td><span class="compare-no">—</span></td><td>2 / an</td></tr>
+          <tr style="background:var(--bleu-pale);font-weight:800;"><td>Prix mensuel</td><td>0 €</td><td>9,99 €</td><td>49 €</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container-sm">
+    <div class="text-center mb-4">
+      <span class="section-tag">FAQ tarifs</span>
+      <h2>Questions sur les tarifs</h2>
+    </div>
+    <details class="card mb-2"><summary style="cursor:pointer;font-weight:700;font-size:16px;">Puis-je changer de plan à tout moment ?</summary><p style="margin-top:12px;color:var(--text-soft);">Oui, sans frais. Upgrade : effet immédiat. Downgrade : à la prochaine échéance, vous gardez le bénéfice payé.</p></details>
+    <details class="card mb-2"><summary style="cursor:pointer;font-weight:700;font-size:16px;">Comment marche la gratuité pour les minima sociaux ?</summary><p style="margin-top:12px;color:var(--text-soft);">Uploadez votre avis d'imposition au moment de l'inscription. Si votre RFR est inférieur à 12 271 € par part, le plan Premium s'active <strong>gratuitement</strong> et automatiquement. Pas de démarche supplémentaire.</p></details>
+    <details class="card mb-2"><summary style="cursor:pointer;font-weight:700;font-size:16px;">Que se passe-t-il à la fin des 14 jours d'essai ?</summary><p style="margin-top:12px;color:var(--text-soft);">Aucune carte requise pour l'essai. À la fin, vous repassez automatiquement sur le plan gratuit (Découverte). Vos documents restent dans votre coffre, accessibles en lecture.</p></details>
+    <details class="card mb-2"><summary style="cursor:pointer;font-weight:700;font-size:16px;">Puis-je annuler à tout moment ?</summary><p style="margin-top:12px;color:var(--text-soft);">Oui, en un clic depuis Paramètres → Abonnement. Aucun engagement, aucun frais d'annulation.</p></details>
+    <details class="card mb-2"><summary style="cursor:pointer;font-weight:700;font-size:16px;">Quels moyens de paiement sont acceptés ?</summary><p style="margin-top:12px;color:var(--text-soft);">Carte bancaire (Visa, Mastercard, AmEx) via Stripe. Le prélèvement SEPA est en cours d'intégration. PayPal arrive Q3 2026.</p></details>
+    <details class="card mb-2"><summary style="cursor:pointer;font-weight:700;font-size:16px;">Y a-t-il un plan pour les associations ?</summary><p style="margin-top:12px;color:var(--text-soft);">Oui, contactez-nous via <a href="contact.html?demande=asso">contact</a>. -50 % sur le plan Pro pour les associations RUP, RGPD et 1901 d'intérêt général.</p></details>
+  </div>
+</section>
+
+<section style="background:linear-gradient(135deg,var(--bleu),var(--bleu-clair));color:white;text-align:center;">
+  <div class="container">
+    <h2 style="color:white;">Prêt à reprendre la main sur votre admin ?</h2>
+    <p style="color:rgba(255,255,255,0.9);font-size:18px;max-width:600px;margin:0 auto 32px;">14 jours gratuits, sans carte bancaire. Annulation en un clic.</p>
+    <a href="inscription.html" class="btn btn-lg" style="background:white;color:var(--bleu);">🔐 Commencer gratuitement</a>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="site-footer-grid">
+    <div>
+      <div class="site-footer-brand"><div class="site-nav-mark"></div>Simplif'IA France</div>
+      <p style="margin-bottom:14px;font-size:14px;">Le guichet unique administratif assisté par IA, pensé pour tous les Français.</p>
+      <p style="font-size:12px;line-height:1.6;">SAS au capital de 50 000 €<br>RCS Paris 928 476 312<br>🇫🇷 Hébergement souverain · OVH France</p>
+    </div>
+    <div><h4>Produit</h4><ul><li><a href="fonctionnalites.html">Fonctionnalités</a></li><li><a href="tarifs.html">Tarifs</a></li><li><a href="app.html">Démo interactive</a></li><li><a href="api.html">API & développeurs</a></li></ul></div>
+    <div><h4>Société</h4><ul><li><a href="apropos.html">À propos</a></li><li><a href="blog.html">Blog</a></li><li><a href="contact.html">Contact</a></li><li><a href="aide.html">Centre d'aide</a></li></ul></div>
+    <div><h4>Légal</h4><ul><li><a href="cgu.html">CGU</a></li><li><a href="confidentialite.html">Confidentialité</a></li><li><a href="mentions-legales.html">Mentions légales</a></li><li><a href="cookies.html">Cookies</a></li></ul></div>
+  </div>
+  <div class="site-footer-bottom">
+    <div>© 2026 Simplif'IA France · Tous droits réservés</div>
+    <div>🇫🇷 Made in France · RGPD compliant</div>
+  </div>
+</footer>
+
+</body>
+</html>

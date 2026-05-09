@@ -1,0 +1,1524 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simplif'IA France · Back-office</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bleu: #000091;
+    --bleu-clair: #6A6AF4;
+    --bleu-pale: #E3E3FD;
+    --bleu-deep: #050530;
+    --rouge: #E1000F;
+    --rouge-soft: #FFE5E7;
+    --vert: #18753C;
+    --vert-soft: #E8F7EE;
+    --vert-vif: #00C896;
+    --orange: #FF6F00;
+    --orange-soft: #FFE5CC;
+    --jaune: #FFD83D;
+    --rose: #FF4FA3;
+    --violet: #8B3DFF;
+    --violet-soft: #F3E8FF;
+    --turquoise: #00BFC9;
+    --turquoise-soft: #CFF5F7;
+
+    --bg: #F4F4FA;
+    --bg-soft: #ECECF5;
+    --text: #0a0a23;
+    --text-soft: #555570;
+    --text-mute: #8a8aa3;
+    --border: #E4E4EE;
+    --card: #FFFFFF;
+    --sidebar: #0a0a23;
+
+    --shadow-sm: 0 1px 3px rgba(10,10,35,0.06);
+    --shadow-md: 0 8px 24px rgba(10,10,35,0.08);
+    --shadow-lg: 0 24px 60px rgba(0,0,145,0.14);
+    --shadow-glow: 0 0 0 4px rgba(106,106,244,0.2);
+
+    --radius: 12px;
+    --radius-lg: 18px;
+    --radius-xl: 24px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    background: var(--bg); color: var(--text);
+    line-height: 1.5; min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    display: flex;
+  }
+  ::selection { background: var(--bleu); color: white; }
+  button { font-family: inherit; cursor: pointer; }
+  a { color: inherit; text-decoration: none; }
+
+  /* ============ SIDEBAR ============ */
+  aside.sidebar {
+    width: 260px; flex-shrink: 0;
+    background: var(--sidebar);
+    color: rgba(255,255,255,0.85);
+    height: 100vh; position: sticky; top: 0;
+    display: flex; flex-direction: column;
+    border-right: 1px solid rgba(255,255,255,0.05);
+    overflow-y: auto;
+  }
+  .side-brand {
+    padding: 20px 18px;
+    display: flex; align-items: center; gap: 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .side-mark {
+    width: 36px; height: 36px; border-radius: 9px;
+    background: linear-gradient(180deg, var(--bleu-clair) 0% 33%, white 33% 66%, var(--rouge) 66%);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    flex-shrink: 0;
+  }
+  .side-brand-name { font-weight: 800; font-size: 15px; color: white; line-height: 1.1; }
+  .side-brand-name span { color: var(--rouge); }
+  .side-brand-sub { font-size: 11px; opacity: 0.55; margin-top: 2px; text-transform: uppercase; letter-spacing: 0.6px; }
+
+  .side-section {
+    padding: 16px 16px 6px; font-size: 10px;
+    text-transform: uppercase; letter-spacing: 1.5px;
+    opacity: 0.45; font-weight: 700;
+  }
+  .side-link {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 16px; margin: 0 8px; border-radius: 8px;
+    font-size: 13px; font-weight: 500;
+    color: rgba(255,255,255,0.75);
+    transition: all .12s; cursor: pointer;
+    border: none; background: transparent; width: calc(100% - 16px);
+    text-align: left;
+  }
+  .side-link:hover { background: rgba(255,255,255,0.06); color: white; }
+  .side-link.active {
+    background: linear-gradient(135deg, rgba(106,106,244,0.25), rgba(255,79,163,0.15));
+    color: white; font-weight: 600;
+    box-shadow: inset 0 0 0 1px rgba(106,106,244,0.3);
+  }
+  .side-icon {
+    width: 24px; height: 24px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; flex-shrink: 0;
+  }
+  .side-link.active .side-icon { transform: scale(1.1); }
+  .side-badge {
+    margin-left: auto; background: var(--rouge); color: white;
+    font-size: 10px; font-weight: 800;
+    padding: 2px 7px; border-radius: 999px; line-height: 1.4;
+  }
+  .side-badge.green { background: var(--vert-vif); color: var(--bleu-deep); }
+  .side-badge.yellow { background: var(--jaune); color: var(--bleu-deep); }
+  .side-badge.violet { background: var(--violet); color: white; }
+
+  .side-bottom {
+    margin-top: auto; padding: 14px 16px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+  .side-user {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px; border-radius: 10px;
+    background: rgba(255,255,255,0.04);
+    cursor: pointer; transition: background .15s;
+  }
+  .side-user:hover { background: rgba(255,255,255,0.08); }
+  .side-user-av {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--bleu-clair), var(--violet));
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-weight: 800; font-size: 12px;
+    flex-shrink: 0;
+  }
+  .side-user-name { font-size: 13px; font-weight: 600; color: white; line-height: 1.2; }
+  .side-user-role { font-size: 10px; opacity: 0.6; }
+  .side-user-status {
+    margin-left: auto; width: 10px; height: 10px;
+    background: var(--vert-vif); border-radius: 50%;
+    border: 2px solid var(--sidebar);
+  }
+
+  /* ============ MAIN ============ */
+  main {
+    flex: 1; min-width: 0;
+    display: flex; flex-direction: column;
+  }
+
+  .topbar {
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(20px) saturate(140%);
+    -webkit-backdrop-filter: blur(20px) saturate(140%);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 28px;
+    display: flex; align-items: center; gap: 16px;
+    position: sticky; top: 0; z-index: 50;
+  }
+  .breadcrumb { font-size: 13px; color: var(--text-mute); display: flex; align-items: center; gap: 8px; }
+  .breadcrumb strong { color: var(--text); font-weight: 700; }
+  .topbar-search {
+    flex: 1; max-width: 480px; margin-left: 24px;
+    display: flex; align-items: center; gap: 8px;
+    background: var(--bg-soft); border: 1px solid var(--border);
+    border-radius: 999px; padding: 8px 16px;
+    transition: all .15s;
+  }
+  .topbar-search:focus-within { background: white; border-color: var(--bleu); box-shadow: var(--shadow-glow); }
+  .topbar-search input {
+    flex: 1; border: none; background: transparent; outline: none;
+    font-size: 13px; font-family: inherit;
+  }
+  .topbar-search kbd {
+    background: white; border: 1px solid var(--border);
+    padding: 2px 6px; border-radius: 5px;
+    font-size: 11px; color: var(--text-mute);
+    font-family: 'SFMono-Regular', monospace;
+  }
+  .topbar-actions { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+  .icon-btn {
+    width: 38px; height: 38px; border-radius: 10px;
+    background: var(--bg-soft); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; color: var(--text-soft);
+    transition: all .15s; position: relative;
+  }
+  .icon-btn:hover { background: white; color: var(--text); transform: translateY(-1px); }
+  .icon-btn .dot {
+    position: absolute; top: 6px; right: 6px;
+    width: 9px; height: 9px; background: var(--rouge);
+    border-radius: 50%; border: 2px solid white;
+  }
+  .btn-cta {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: linear-gradient(135deg, var(--bleu), var(--violet));
+    color: white; border: none;
+    padding: 10px 18px; border-radius: 10px;
+    font-size: 13px; font-weight: 700;
+    box-shadow: 0 4px 14px rgba(0,0,145,0.3);
+    transition: all .15s;
+  }
+  .btn-cta:hover { transform: translateY(-1px); box-shadow: 0 8px 22px rgba(0,0,145,0.4); }
+
+  /* ============ CONTENT WRAPPER ============ */
+  .content {
+    padding: 28px;
+  }
+  .panel { display: none; animation: fadeUp .3s ease; }
+  .panel.active { display: block; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+  .page-head {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    margin-bottom: 24px; gap: 16px; flex-wrap: wrap;
+  }
+  .page-title {
+    font-size: 28px; font-weight: 900; letter-spacing: -0.8px; line-height: 1.1;
+  }
+  .page-title em { font-family: 'Instrument Serif', Georgia, serif; font-style: italic; font-weight: 400; }
+  .page-sub { color: var(--text-soft); font-size: 14px; margin-top: 4px; }
+
+  /* ============ DASHBOARD KPIs ============ */
+  .kpi-row {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;
+    margin-bottom: 24px;
+  }
+  @media (max-width: 1100px) { .kpi-row { grid-template-columns: repeat(2, 1fr); } }
+  .kpi-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius-lg); padding: 20px;
+    position: relative; overflow: hidden;
+    transition: all .25s;
+  }
+  .kpi-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); border-color: var(--bleu-clair); }
+  .kpi-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  }
+  .kpi-card.k-blue::before { background: linear-gradient(90deg, var(--bleu), var(--bleu-clair)); }
+  .kpi-card.k-orange::before { background: linear-gradient(90deg, var(--orange), var(--jaune)); }
+  .kpi-card.k-green::before { background: linear-gradient(90deg, var(--vert), var(--vert-vif)); }
+  .kpi-card.k-pink::before { background: linear-gradient(90deg, var(--rouge), var(--rose)); }
+  .kpi-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+  .kpi-label { font-size: 11px; color: var(--text-mute); font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; }
+  .kpi-icon {
+    width: 34px; height: 34px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center; font-size: 18px;
+  }
+  .kpi-card.k-blue .kpi-icon { background: var(--bleu-pale); color: var(--bleu); }
+  .kpi-card.k-orange .kpi-icon { background: var(--orange-soft); color: var(--orange); }
+  .kpi-card.k-green .kpi-icon { background: var(--vert-soft); color: var(--vert); }
+  .kpi-card.k-pink .kpi-icon { background: var(--rouge-soft); color: var(--rouge); }
+  .kpi-value {
+    font-size: 32px; font-weight: 900; line-height: 1; letter-spacing: -1px;
+    background: linear-gradient(135deg, var(--text), var(--text-soft));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .kpi-meta { display: flex; align-items: center; gap: 6px; margin-top: 8px; font-size: 12px; }
+  .kpi-trend {
+    display: inline-flex; align-items: center; gap: 3px;
+    padding: 2px 8px; border-radius: 999px;
+    font-size: 11px; font-weight: 700;
+  }
+  .kpi-trend.up { background: var(--vert-soft); color: var(--vert); }
+  .kpi-trend.down { background: var(--rouge-soft); color: var(--rouge); }
+  .kpi-meta-text { color: var(--text-mute); }
+
+  /* ============ INBOX ============ */
+  .inbox-shell {
+    display: grid; grid-template-columns: 360px 1fr;
+    gap: 16px;
+    height: calc(100vh - 200px);
+    min-height: 600px;
+  }
+  @media (max-width: 1100px) {
+    .inbox-shell { grid-template-columns: 1fr; height: auto; }
+  }
+
+  .inbox-list-card {
+    background: white; border: 1px solid var(--border);
+    border-radius: var(--radius-xl); overflow: hidden;
+    display: flex; flex-direction: column;
+  }
+  .inbox-tabs {
+    display: flex; padding: 12px 12px 0;
+    border-bottom: 1px solid var(--border);
+    gap: 4px; overflow-x: auto;
+  }
+  .inbox-tab {
+    background: transparent; border: none;
+    padding: 9px 13px; font-size: 12px; font-weight: 700;
+    color: var(--text-soft); white-space: nowrap;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -1px; transition: all .15s;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .inbox-tab:hover { color: var(--text); }
+  .inbox-tab.active { color: var(--bleu); border-bottom-color: var(--bleu); }
+  .inbox-tab .count {
+    background: var(--bg-soft); padding: 1px 7px; border-radius: 999px;
+    font-size: 10px; font-weight: 800;
+  }
+  .inbox-tab.active .count { background: var(--bleu); color: white; }
+
+  .inbox-search {
+    padding: 12px;
+    border-bottom: 1px solid var(--border);
+    display: flex; gap: 8px; align-items: center;
+  }
+  .inbox-search input {
+    flex: 1; background: var(--bg-soft); border: 1px solid var(--border);
+    padding: 9px 13px; border-radius: 9px; font-size: 13px;
+    outline: none; font-family: inherit; transition: all .15s;
+  }
+  .inbox-search input:focus { background: white; border-color: var(--bleu); }
+  .inbox-search-btn {
+    width: 36px; height: 36px; border-radius: 9px;
+    background: var(--bg-soft); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; color: var(--text-soft);
+  }
+  .inbox-search-btn:hover { background: white; }
+
+  .inbox-list {
+    flex: 1; overflow-y: auto;
+  }
+  .inbox-item {
+    display: grid; grid-template-columns: auto 1fr auto;
+    gap: 12px; padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+    transition: background .15s; cursor: pointer;
+    position: relative;
+  }
+  .inbox-item:hover { background: var(--bg-soft); }
+  .inbox-item.selected { background: linear-gradient(90deg, var(--bleu-pale), white); border-left: 3px solid var(--bleu); padding-left: 13px; }
+  .inbox-item.unread .inbox-from { font-weight: 800; color: var(--text); }
+  .inbox-item.unread .inbox-subject { font-weight: 700; }
+  .inbox-item.unread::before {
+    content: ''; position: absolute; left: 8px; top: 50%; transform: translateY(-50%);
+    width: 6px; height: 6px; border-radius: 50%; background: var(--bleu);
+  }
+  .inbox-avatar {
+    width: 38px; height: 38px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-weight: 800; font-size: 13px;
+    flex-shrink: 0;
+    background: linear-gradient(135deg, var(--bleu), var(--bleu-clair));
+  }
+  .inbox-avatar.av-1 { background: linear-gradient(135deg, var(--bleu), var(--violet)); }
+  .inbox-avatar.av-2 { background: linear-gradient(135deg, var(--orange), var(--rose)); }
+  .inbox-avatar.av-3 { background: linear-gradient(135deg, var(--vert), var(--vert-vif)); }
+  .inbox-avatar.av-4 { background: linear-gradient(135deg, var(--rouge), var(--orange)); }
+  .inbox-avatar.av-5 { background: linear-gradient(135deg, var(--violet), var(--rose)); }
+  .inbox-avatar.av-6 { background: linear-gradient(135deg, var(--turquoise), var(--bleu-clair)); }
+
+  .inbox-content { min-width: 0; }
+  .inbox-line1 {
+    display: flex; align-items: center; gap: 6px;
+    margin-bottom: 4px;
+  }
+  .inbox-from { font-size: 13px; color: var(--text-soft); font-weight: 600; flex: 1; min-width: 0;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .inbox-tag {
+    font-size: 10px; font-weight: 700;
+    padding: 2px 7px; border-radius: 4px;
+    text-transform: uppercase; letter-spacing: 0.4px;
+    flex-shrink: 0;
+  }
+  .inbox-tag.contact { background: var(--bleu-pale); color: var(--bleu); }
+  .inbox-tag.waitlist { background: var(--violet-soft); color: var(--violet); }
+  .inbox-tag.support { background: var(--orange-soft); color: var(--orange); }
+  .inbox-tag.partner { background: var(--turquoise-soft); color: var(--turquoise); }
+  .inbox-tag.press { background: var(--rouge-soft); color: var(--rouge); }
+  .inbox-tag.demo { background: var(--vert-soft); color: var(--vert); }
+
+  .inbox-subject { font-size: 13px; color: var(--text); margin-bottom: 4px;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .inbox-preview {
+    font-size: 12px; color: var(--text-mute); line-height: 1.4;
+    display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;
+  }
+
+  .inbox-meta {
+    display: flex; flex-direction: column; align-items: flex-end; gap: 4px;
+    flex-shrink: 0;
+  }
+  .inbox-time { font-size: 11px; color: var(--text-mute); white-space: nowrap; }
+  .inbox-stars { font-size: 12px; color: var(--text-mute); }
+  .inbox-stars.starred { color: var(--jaune); }
+
+  .inbox-empty {
+    padding: 60px 20px; text-align: center;
+    color: var(--text-mute); font-size: 13px;
+  }
+  .inbox-empty-icon { font-size: 48px; margin-bottom: 12px; opacity: 0.5; }
+
+  /* ============ EMAIL VIEWER ============ */
+  .mail-viewer {
+    background: white; border: 1px solid var(--border);
+    border-radius: var(--radius-xl); overflow: hidden;
+    display: flex; flex-direction: column;
+  }
+  .mail-empty {
+    flex: 1; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    color: var(--text-mute); padding: 60px 20px; text-align: center;
+  }
+  .mail-empty-icon {
+    font-size: 80px; margin-bottom: 18px; opacity: 0.4;
+  }
+  .mail-empty h3 { font-size: 18px; margin-bottom: 6px; color: var(--text); font-weight: 700; }
+  .mail-empty p { font-size: 13px; max-width: 360px; line-height: 1.5; }
+
+  .mail-toolbar {
+    padding: 14px 20px; border-bottom: 1px solid var(--border);
+    display: flex; gap: 6px; align-items: center; flex-wrap: wrap;
+  }
+  .mail-btn {
+    background: var(--bg-soft); border: 1px solid var(--border);
+    padding: 7px 12px; border-radius: 8px; font-size: 12px; font-weight: 600;
+    color: var(--text-soft); display: inline-flex; align-items: center; gap: 6px;
+    transition: all .15s;
+  }
+  .mail-btn:hover { background: white; color: var(--text); transform: translateY(-1px); }
+  .mail-btn.primary {
+    background: linear-gradient(135deg, var(--bleu), var(--bleu-clair));
+    color: white; border: none;
+    box-shadow: 0 3px 10px rgba(0,0,145,0.25);
+  }
+  .mail-btn.danger { background: var(--rouge-soft); color: var(--rouge); border-color: rgba(225,0,15,0.2); }
+  .mail-btn.danger:hover { background: var(--rouge); color: white; }
+  .mail-btn.warn { background: var(--orange-soft); color: var(--orange); border-color: rgba(255,111,0,0.2); }
+
+  .mail-head {
+    padding: 24px 28px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .mail-subject {
+    font-size: 22px; font-weight: 800; letter-spacing: -0.5px; line-height: 1.25;
+    margin-bottom: 14px;
+  }
+  .mail-tags { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
+  .mail-from-row {
+    display: flex; align-items: center; gap: 12px;
+  }
+  .mail-from-av {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--bleu), var(--violet));
+    color: white; display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 800;
+  }
+  .mail-from-info { flex: 1; }
+  .mail-from-name { font-size: 14px; font-weight: 700; }
+  .mail-from-email { font-size: 12px; color: var(--text-mute); }
+  .mail-time { font-size: 12px; color: var(--text-mute); margin-left: auto; text-align: right; }
+
+  .mail-body {
+    padding: 24px 28px; flex: 1; overflow-y: auto;
+    font-size: 15px; line-height: 1.7; color: var(--text);
+  }
+  .mail-body p { margin-bottom: 14px; }
+  .mail-body strong { color: var(--bleu); }
+
+  .mail-ai-box {
+    margin-top: 28px; padding: 16px 20px;
+    background: linear-gradient(135deg, var(--violet-soft), white);
+    border: 1px solid var(--violet);
+    border-radius: var(--radius);
+    position: relative;
+  }
+  .mail-ai-tag {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: linear-gradient(135deg, var(--violet), var(--rose));
+    color: white; padding: 4px 12px; border-radius: 999px;
+    font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;
+    margin-bottom: 10px;
+  }
+  .mail-ai-content { font-size: 13px; color: var(--text); line-height: 1.6; }
+  .mail-ai-content strong { color: var(--violet); }
+  .mail-ai-actions { display: flex; gap: 6px; margin-top: 12px; flex-wrap: wrap; }
+  .mail-ai-action {
+    background: white; border: 1px solid var(--violet);
+    padding: 6px 12px; border-radius: 999px; font-size: 11px; font-weight: 700;
+    color: var(--violet);
+  }
+  .mail-ai-action:hover { background: var(--violet); color: white; }
+
+  /* Reply box */
+  .mail-reply {
+    border-top: 1px solid var(--border);
+    padding: 16px 20px; background: var(--bg-soft);
+  }
+  .reply-tabs { display: flex; gap: 4px; margin-bottom: 10px; }
+  .reply-tab {
+    background: transparent; border: none;
+    padding: 6px 12px; border-radius: 6px;
+    font-size: 12px; font-weight: 600; color: var(--text-soft);
+  }
+  .reply-tab.active { background: white; color: var(--text); box-shadow: var(--shadow-sm); }
+  .reply-tab:hover { color: var(--text); }
+  .reply-textarea {
+    width: 100%; min-height: 80px; resize: vertical;
+    background: white; border: 1px solid var(--border);
+    padding: 12px 14px; border-radius: 10px;
+    font-size: 13px; color: var(--text);
+    font-family: inherit; outline: none; line-height: 1.5;
+  }
+  .reply-textarea:focus { border-color: var(--bleu); box-shadow: var(--shadow-glow); }
+  .reply-actions {
+    margin-top: 10px;
+    display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  }
+  .reply-send {
+    background: linear-gradient(135deg, var(--bleu), var(--bleu-clair));
+    color: white; border: none;
+    padding: 9px 18px; border-radius: 8px;
+    font-size: 13px; font-weight: 700;
+    display: inline-flex; align-items: center; gap: 6px;
+    box-shadow: 0 4px 12px rgba(0,0,145,0.3);
+  }
+  .reply-send:hover { transform: translateY(-1px); }
+  .reply-templates {
+    display: flex; gap: 6px; flex-wrap: wrap; margin-left: auto;
+  }
+  .reply-tpl {
+    background: white; border: 1px solid var(--border);
+    padding: 6px 11px; border-radius: 999px;
+    font-size: 11px; font-weight: 600; color: var(--text-soft);
+    transition: all .15s;
+  }
+  .reply-tpl:hover { background: var(--bleu-pale); color: var(--bleu); border-color: var(--bleu); }
+
+  /* ============ DASHBOARD CHART AREA ============ */
+  .dash-grid {
+    display: grid; grid-template-columns: 2fr 1fr; gap: 16px;
+  }
+  @media (max-width: 1000px) { .dash-grid { grid-template-columns: 1fr; } }
+  .dash-card {
+    background: white; border: 1px solid var(--border);
+    border-radius: var(--radius-lg); padding: 22px;
+  }
+  .dash-card-head {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 18px;
+  }
+  .dash-card-title { font-size: 15px; font-weight: 700; }
+  .dash-card-sub { font-size: 11px; color: var(--text-mute); margin-top: 2px; }
+  .chart {
+    height: 240px; display: flex; align-items: flex-end; gap: 8px;
+    padding: 8px 0;
+  }
+  .chart-bar {
+    flex: 1; min-width: 0;
+    background: linear-gradient(180deg, var(--bleu-clair), var(--bleu));
+    border-radius: 6px 6px 0 0;
+    position: relative; cursor: pointer;
+    transition: all .2s;
+  }
+  .chart-bar:hover { transform: scaleY(1.05); transform-origin: bottom; }
+  .chart-bar.alt { background: linear-gradient(180deg, var(--rose), var(--violet)); }
+  .chart-label {
+    text-align: center; font-size: 10px; color: var(--text-mute);
+    padding-top: 4px;
+  }
+  .chart-row { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+
+  .activity-list { display: flex; flex-direction: column; gap: 10px; }
+  .activity-item {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding-bottom: 10px; border-bottom: 1px solid var(--border);
+  }
+  .activity-item:last-child { border: none; padding-bottom: 0; }
+  .activity-dot {
+    width: 32px; height: 32px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; flex-shrink: 0;
+  }
+  .activity-dot.blue { background: var(--bleu-pale); color: var(--bleu); }
+  .activity-dot.green { background: var(--vert-soft); color: var(--vert); }
+  .activity-dot.orange { background: var(--orange-soft); color: var(--orange); }
+  .activity-dot.violet { background: var(--violet-soft); color: var(--violet); }
+  .activity-dot.pink { background: var(--rouge-soft); color: var(--rouge); }
+  .activity-text { flex: 1; font-size: 13px; line-height: 1.5; }
+  .activity-text strong { font-weight: 700; }
+  .activity-time { font-size: 11px; color: var(--text-mute); margin-top: 2px; }
+
+  /* ============ USERS / DEMARCHES TABLE ============ */
+  .table-card {
+    background: white; border: 1px solid var(--border);
+    border-radius: var(--radius-lg); overflow: hidden;
+  }
+  .table-toolbar {
+    padding: 14px 20px; border-bottom: 1px solid var(--border);
+    display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
+  }
+  .filter-pill {
+    background: var(--bg-soft); border: 1px solid var(--border);
+    padding: 6px 12px; border-radius: 999px; font-size: 12px; font-weight: 600;
+    color: var(--text-soft); transition: all .15s;
+  }
+  .filter-pill:hover { background: white; color: var(--text); }
+  .filter-pill.active { background: var(--text); color: white; border-color: var(--text); }
+
+  table { width: 100%; border-collapse: collapse; }
+  th, td { padding: 14px 18px; text-align: left; }
+  th {
+    font-size: 11px; color: var(--text-mute); font-weight: 700;
+    text-transform: uppercase; letter-spacing: 1px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-soft);
+  }
+  td { font-size: 13px; border-bottom: 1px solid var(--border); }
+  tr:hover td { background: var(--bg-soft); }
+  tr:last-child td { border-bottom: none; }
+  .table-cell-user { display: flex; align-items: center; gap: 10px; }
+  .table-cell-user .av {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--bleu), var(--bleu-clair));
+    color: white; display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 800; flex-shrink: 0;
+  }
+  .badge-pill {
+    display: inline-block; padding: 3px 10px; border-radius: 999px;
+    font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px;
+  }
+  .b-ok { background: var(--vert-soft); color: var(--vert); }
+  .b-pending { background: var(--orange-soft); color: var(--orange); }
+  .b-error { background: var(--rouge-soft); color: var(--rouge); }
+  .b-info { background: var(--bleu-pale); color: var(--bleu); }
+  .b-purple { background: var(--violet-soft); color: var(--violet); }
+
+  /* ============ COMPOSE MODAL (placeholder) ============ */
+  .compose-modal {
+    position: fixed; inset: 0; z-index: 200;
+    background: rgba(10,10,35,0.6); backdrop-filter: blur(4px);
+    display: none; align-items: center; justify-content: center;
+    padding: 20px;
+  }
+  .compose-modal.open { display: flex; animation: fadeUp .25s ease; }
+  .compose-card {
+    background: white; border-radius: var(--radius-xl);
+    width: 100%; max-width: 640px;
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+  }
+  .compose-head {
+    background: linear-gradient(135deg, var(--bleu), var(--violet));
+    color: white; padding: 18px 22px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .compose-head h3 { font-size: 16px; font-weight: 800; }
+  .compose-close {
+    background: rgba(255,255,255,0.18); border: none;
+    width: 30px; height: 30px; border-radius: 8px; color: white;
+    font-size: 14px;
+  }
+  .compose-body { padding: 22px; display: flex; flex-direction: column; gap: 12px; }
+  .compose-field input, .compose-field textarea {
+    width: 100%; padding: 11px 14px;
+    background: var(--bg-soft); border: 1px solid var(--border);
+    border-radius: 10px; font-size: 13px; outline: none;
+    font-family: inherit; transition: all .15s;
+  }
+  .compose-field input:focus, .compose-field textarea:focus { background: white; border-color: var(--bleu); }
+  .compose-field textarea { min-height: 140px; resize: vertical; line-height: 1.6; }
+  .compose-field-label { font-size: 11px; color: var(--text-mute); font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 4px; display: block; }
+  .compose-actions {
+    border-top: 1px solid var(--border);
+    padding: 14px 22px;
+    display: flex; gap: 8px; align-items: center;
+  }
+
+  /* ============ TOAST ============ */
+  .toast {
+    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(100px);
+    background: var(--text); color: white;
+    padding: 12px 20px; border-radius: 999px;
+    font-size: 13px; font-weight: 600;
+    box-shadow: 0 16px 40px rgba(0,0,0,0.3);
+    z-index: 300;
+    opacity: 0; pointer-events: none;
+    transition: all .3s cubic-bezier(.32,.72,.52,1);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .toast.success { background: linear-gradient(135deg, var(--vert), var(--vert-vif)); }
+
+  @media (max-width: 800px) {
+    aside.sidebar { width: 70px; }
+    .side-brand-name, .side-brand-sub, .side-link span:not(.side-icon):not(.side-badge),
+    .side-section, .side-user-name, .side-user-role { display: none; }
+    .side-link { justify-content: center; }
+    .side-badge { position: absolute; top: 4px; right: 4px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ SIDEBAR ============ -->
+<aside class="sidebar">
+  <div class="side-brand">
+    <div class="side-mark"></div>
+    <div>
+      <div class="side-brand-name">Simplif'IA <span>FR</span></div>
+      <div class="side-brand-sub">Back-office</div>
+    </div>
+  </div>
+
+  <div class="side-section">Tableau</div>
+  <button class="side-link" data-go="dashboard">
+    <span class="side-icon">📊</span><span>Vue d'ensemble</span>
+  </button>
+
+  <div class="side-section">Communication</div>
+  <button class="side-link active" data-go="inbox">
+    <span class="side-icon">✉️</span><span>Inbox</span>
+    <span class="side-badge" id="badge-unread">3</span>
+  </button>
+  <button class="side-link" data-go="waitlist">
+    <span class="side-icon">📋</span><span>Waitlist</span>
+    <span class="side-badge violet" id="badge-waitlist">12</span>
+  </button>
+  <button class="side-link" data-go="press">
+    <span class="side-icon">📰</span><span>Presse</span>
+  </button>
+
+  <div class="side-section">Utilisateurs</div>
+  <button class="side-link" data-go="users">
+    <span class="side-icon">👤</span><span>Utilisateurs</span>
+    <span class="side-badge green">2 384</span>
+  </button>
+  <button class="side-link" data-go="demarches">
+    <span class="side-icon">📑</span><span>Démarches</span>
+  </button>
+  <button class="side-link" data-go="documents">
+    <span class="side-icon">🔒</span><span>Coffre-forts</span>
+  </button>
+
+  <div class="side-section">Système</div>
+  <button class="side-link" data-go="api">
+    <span class="side-icon">🔌</span><span>API & Logs</span>
+  </button>
+  <button class="side-link" data-go="settings">
+    <span class="side-icon">⚙️</span><span>Réglages</span>
+  </button>
+
+  <div class="side-bottom">
+    <div class="side-user">
+      <div class="side-user-av">AD</div>
+      <div>
+        <div class="side-user-name">Arnaud D.</div>
+        <div class="side-user-role">Admin · Fondateur</div>
+      </div>
+      <div class="side-user-status" title="En ligne"></div>
+    </div>
+  </div>
+</aside>
+
+<!-- ============ MAIN ============ -->
+<main>
+  <header class="topbar">
+    <div class="breadcrumb">Back-office <span>›</span> <strong id="crumb">Inbox</strong></div>
+    <div class="topbar-search">
+      <span style="color: var(--text-mute);">🔍</span>
+      <input type="text" placeholder="Rechercher un mail, un utilisateur, une démarche…" aria-label="Recherche globale">
+      <kbd>⌘ K</kbd>
+    </div>
+    <div class="topbar-actions">
+      <a href="index.html" class="icon-btn" title="Voir la landing">🌍</a>
+      <a href="app.html" class="icon-btn" title="Voir l'app produit">📱</a>
+      <button class="icon-btn" title="Notifications">🔔<span class="dot"></span></button>
+      <button class="btn-cta" id="newComposeBtn">
+        <span>✏️</span> Nouveau mail
+      </button>
+    </div>
+  </header>
+
+  <div class="content">
+
+    <!-- =========== DASHBOARD =========== -->
+    <section class="panel" data-panel="dashboard">
+      <div class="page-head">
+        <div>
+          <h1 class="page-title">Bonsoir, Arnaud — <em>vue d'ensemble</em>.</h1>
+          <p class="page-sub">Aperçu de votre plateforme · données live · <strong style="color: var(--vert);">tout est OK</strong></p>
+        </div>
+      </div>
+
+      <div class="kpi-row">
+        <div class="kpi-card k-blue">
+          <div class="kpi-head">
+            <div class="kpi-label">Utilisateurs</div>
+            <div class="kpi-icon">👤</div>
+          </div>
+          <div class="kpi-value">2 384</div>
+          <div class="kpi-meta">
+            <span class="kpi-trend up">▲ +18%</span>
+            <span class="kpi-meta-text">vs. mois dernier</span>
+          </div>
+        </div>
+        <div class="kpi-card k-orange">
+          <div class="kpi-head">
+            <div class="kpi-label">Démarches actives</div>
+            <div class="kpi-icon">📑</div>
+          </div>
+          <div class="kpi-value">847</div>
+          <div class="kpi-meta">
+            <span class="kpi-trend up">▲ +24%</span>
+            <span class="kpi-meta-text">7 j</span>
+          </div>
+        </div>
+        <div class="kpi-card k-green">
+          <div class="kpi-head">
+            <div class="kpi-label">LRE envoyées</div>
+            <div class="kpi-icon">✉️</div>
+          </div>
+          <div class="kpi-value">312</div>
+          <div class="kpi-meta">
+            <span class="kpi-trend up">▲ +9%</span>
+            <span class="kpi-meta-text">CA mois : 1 460 €</span>
+          </div>
+        </div>
+        <div class="kpi-card k-pink">
+          <div class="kpi-head">
+            <div class="kpi-label">NPS</div>
+            <div class="kpi-icon">💖</div>
+          </div>
+          <div class="kpi-value">72</div>
+          <div class="kpi-meta">
+            <span class="kpi-trend up">▲ +4 pts</span>
+            <span class="kpi-meta-text">183 réponses</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="dash-grid">
+        <div class="dash-card">
+          <div class="dash-card-head">
+            <div>
+              <div class="dash-card-title">Inscriptions cette semaine</div>
+              <div class="dash-card-sub">+ 187 nouveaux comptes · +23% vs. S-1</div>
+            </div>
+            <button class="filter-pill active">7j</button>
+          </div>
+          <div class="chart-row">
+            <div><div class="chart-bar" style="height: 60%"></div><div class="chart-label">Lun</div></div>
+            <div><div class="chart-bar alt" style="height: 80%"></div><div class="chart-label">Mar</div></div>
+            <div><div class="chart-bar" style="height: 45%"></div><div class="chart-label">Mer</div></div>
+            <div><div class="chart-bar alt" style="height: 70%"></div><div class="chart-label">Jeu</div></div>
+            <div><div class="chart-bar" style="height: 90%"></div><div class="chart-label">Ven</div></div>
+            <div><div class="chart-bar alt" style="height: 50%"></div><div class="chart-label">Sam</div></div>
+            <div><div class="chart-bar" style="height: 100%"></div><div class="chart-label">Dim</div></div>
+          </div>
+        </div>
+        <div class="dash-card">
+          <div class="dash-card-head">
+            <div>
+              <div class="dash-card-title">Activité récente</div>
+              <div class="dash-card-sub">live · auto-refresh</div>
+            </div>
+          </div>
+          <div class="activity-list">
+            <div class="activity-item">
+              <div class="activity-dot violet">✏️</div>
+              <div class="activity-text">
+                <strong>Nouveau message</strong> de Marie P. via le formulaire de contact.
+                <div class="activity-time">il y a 2 min</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-dot green">📋</div>
+              <div class="activity-text">
+                <strong>+12 inscriptions</strong> sur la waitlist en 1h.
+                <div class="activity-time">il y a 18 min</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-dot blue">✉️</div>
+              <div class="activity-text">
+                <strong>LRE envoyée</strong> par Sophie M. — Recours CAF 1 200 €.
+                <div class="activity-time">il y a 38 min</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-dot pink">🚨</div>
+              <div class="activity-text">
+                <strong>Alerte</strong> — Service-Public.fr renvoie un 503. Retry auto en cours.
+                <div class="activity-time">il y a 1 h</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-dot orange">⚖️</div>
+              <div class="activity-text">
+                <strong>Mise à jour</strong> Légifrance — 23 nouveaux articles indexés.
+                <div class="activity-time">il y a 2 h</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========== INBOX =========== -->
+    <section class="panel active" data-panel="inbox">
+      <div class="page-head">
+        <div>
+          <h1 class="page-title">Inbox — <em>messages reçus</em>.</h1>
+          <p class="page-sub">
+            <span id="totalMails">7</span> messages · <strong style="color: var(--rouge);" id="unreadCount">3 non lus</strong> ·
+            connecté au formulaire de contact de la landing
+          </p>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <button class="filter-pill">📤 Exporter CSV</button>
+          <button class="btn-cta" onclick="document.getElementById('newComposeBtn').click()">
+            ✏️ Composer
+          </button>
+        </div>
+      </div>
+
+      <div class="inbox-shell">
+        <!-- LIST -->
+        <div class="inbox-list-card">
+          <div class="inbox-tabs" role="tablist">
+            <button class="inbox-tab active" data-filter="all">Tous <span class="count" id="cTab-all">7</span></button>
+            <button class="inbox-tab" data-filter="unread">Non lus <span class="count" id="cTab-unread">3</span></button>
+            <button class="inbox-tab" data-filter="contact">Contact <span class="count" id="cTab-contact">3</span></button>
+            <button class="inbox-tab" data-filter="support">Support <span class="count" id="cTab-support">2</span></button>
+            <button class="inbox-tab" data-filter="press">Presse <span class="count" id="cTab-press">1</span></button>
+            <button class="inbox-tab" data-filter="starred">⭐</button>
+          </div>
+          <div class="inbox-search">
+            <input type="text" placeholder="Filtrer dans la boîte…" id="inboxFilter" aria-label="Filtrer les emails">
+            <button class="inbox-search-btn" title="Trier">⇅</button>
+          </div>
+          <div class="inbox-list" id="inboxList"><!-- filled by JS --></div>
+        </div>
+
+        <!-- VIEWER -->
+        <div class="mail-viewer" id="mailViewer">
+          <div class="mail-empty">
+            <div class="mail-empty-icon">📭</div>
+            <h3>Sélectionnez un message</h3>
+            <p>Cliquez sur un mail dans la liste à gauche pour le lire ici. Maître Léa peut suggérer une réponse en 1 clic.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========== WAITLIST =========== -->
+    <section class="panel" data-panel="waitlist">
+      <div class="page-head">
+        <div>
+          <h1 class="page-title">Waitlist — <em>premiers utilisateurs</em>.</h1>
+          <p class="page-sub">2 384 inscrits · 87% via formulaire landing · 13% parrainage</p>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <button class="filter-pill">📤 Export CSV</button>
+          <button class="filter-pill">🚀 Inviter un batch</button>
+        </div>
+      </div>
+      <div class="table-card">
+        <div class="table-toolbar">
+          <button class="filter-pill active">Tous (12)</button>
+          <button class="filter-pill">Récents</button>
+          <button class="filter-pill">Premium attendu</button>
+          <button class="filter-pill">Aidants / Pro</button>
+          <input type="text" class="inbox-search-btn" style="width: auto; padding: 7px 14px; flex: 1; max-width: 280px; border-radius: 999px; text-align: left; font-size: 12px; color: var(--text-soft);" placeholder="🔍 Rechercher dans la waitlist…">
+        </div>
+        <table>
+          <thead>
+            <tr><th>Personne</th><th>Email</th><th>Source</th><th>Plan visé</th><th>Inscrit</th><th></th></tr>
+          </thead>
+          <tbody>
+            <tr><td><div class="table-cell-user"><div class="av">SM</div> Sophie Marchand</div></td><td>sophie.m@orange.fr</td><td><span class="badge-pill b-info">Landing</span></td><td><span class="badge-pill b-purple">Premium</span></td><td>Il y a 12 min</td><td><button class="filter-pill">→</button></td></tr>
+            <tr><td><div class="table-cell-user"><div class="av">KT</div> Karim Tlili</div></td><td>karim.tlili@gmail.com</td><td><span class="badge-pill b-info">Landing</span></td><td><span class="badge-pill b-ok">Pro / Aidants</span></td><td>Il y a 38 min</td><td><button class="filter-pill">→</button></td></tr>
+            <tr><td><div class="table-cell-user"><div class="av">EL</div> Élodie Lasnier</div></td><td>elodie@studio-bdx.fr</td><td><span class="badge-pill b-info">Landing</span></td><td><span class="badge-pill b-purple">Premium</span></td><td>Il y a 1 h</td><td><button class="filter-pill">→</button></td></tr>
+            <tr><td><div class="table-cell-user"><div class="av">FR</div> François Rouet</div></td><td>francois.r@laposte.net</td><td><span class="badge-pill b-info">Parrainage</span></td><td><span class="badge-pill">Découverte</span></td><td>Il y a 2 h</td><td><button class="filter-pill">→</button></td></tr>
+            <tr><td><div class="table-cell-user"><div class="av">YN</div> Yasmine Nguyen</div></td><td>y.nguyen@assosocial.fr</td><td><span class="badge-pill b-info">Landing</span></td><td><span class="badge-pill b-ok">Pro / Aidants</span></td><td>Il y a 3 h</td><td><button class="filter-pill">→</button></td></tr>
+            <tr><td><div class="table-cell-user"><div class="av">PB</div> Patrick Berger</div></td><td>p.berger@free.fr</td><td><span class="badge-pill b-info">Landing</span></td><td><span class="badge-pill b-purple">Premium</span></td><td>Il y a 5 h</td><td><button class="filter-pill">→</button></td></tr>
+            <tr><td><div class="table-cell-user"><div class="av">CH</div> Camille Hébert</div></td><td>c.hebert78@yahoo.fr</td><td><span class="badge-pill b-info">Parrainage</span></td><td><span class="badge-pill">Découverte</span></td><td>Il y a 8 h</td><td><button class="filter-pill">→</button></td></tr>
+            <tr><td><div class="table-cell-user"><div class="av">JB</div> Jean-Baptiste Roux</div></td><td>jb.roux@hotmail.com</td><td><span class="badge-pill b-info">Landing</span></td><td><span class="badge-pill b-purple">Premium</span></td><td>Il y a 11 h</td><td><button class="filter-pill">→</button></td></tr>
+            <tr><td><div class="table-cell-user"><div class="av">LM</div> Léa Martin</div></td><td>lea.martin@cnav.fr</td><td><span class="badge-pill b-info">Direct</span></td><td><span class="badge-pill b-ok">Pro / Aidants</span></td><td>Hier</td><td><button class="filter-pill">→</button></td></tr>
+            <tr><td><div class="table-cell-user"><div class="av">DG</div> David Garnier</div></td><td>david.g@sfr.fr</td><td><span class="badge-pill b-info">Landing</span></td><td><span class="badge-pill b-purple">Premium</span></td><td>Hier</td><td><button class="filter-pill">→</button></td></tr>
+            <tr><td><div class="table-cell-user"><div class="av">NM</div> Nadia Mezouar</div></td><td>n.mezouar@gmail.com</td><td><span class="badge-pill b-info">Landing</span></td><td><span class="badge-pill">Découverte</span></td><td>2 jours</td><td><button class="filter-pill">→</button></td></tr>
+            <tr><td><div class="table-cell-user"><div class="av">AB</div> Aurélien Bonnet</div></td><td>aurelien@bonnet-conseil.fr</td><td><span class="badge-pill b-info">Direct</span></td><td><span class="badge-pill b-ok">Pro / Aidants</span></td><td>3 jours</td><td><button class="filter-pill">→</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- =========== USERS / DEMARCHES / OTHERS - simple placeholders =========== -->
+    <section class="panel" data-panel="users">
+      <div class="page-head">
+        <div><h1 class="page-title">Utilisateurs — <em>2 384 actifs</em>.</h1><p class="page-sub">Croissance +18% · churn 0,8% · 412 utilisateurs Premium</p></div>
+      </div>
+      <div class="kpi-row">
+        <div class="kpi-card k-blue"><div class="kpi-head"><div class="kpi-label">Total comptes</div><div class="kpi-icon">👥</div></div><div class="kpi-value">2 384</div><div class="kpi-meta"><span class="kpi-trend up">▲ +187</span><span class="kpi-meta-text">7j</span></div></div>
+        <div class="kpi-card k-green"><div class="kpi-head"><div class="kpi-label">Premium payant</div><div class="kpi-icon">💎</div></div><div class="kpi-value">412</div><div class="kpi-meta"><span class="kpi-trend up">▲ +14%</span><span class="kpi-meta-text">conversion 17,3%</span></div></div>
+        <div class="kpi-card k-orange"><div class="kpi-head"><div class="kpi-label">Pro / Aidants</div><div class="kpi-icon">🏢</div></div><div class="kpi-value">38</div><div class="kpi-meta"><span class="kpi-trend up">▲ +5</span><span class="kpi-meta-text">7j</span></div></div>
+        <div class="kpi-card k-pink"><div class="kpi-head"><div class="kpi-label">Bénéficiaires gratuits</div><div class="kpi-icon">❤️</div></div><div class="kpi-value">156</div><div class="kpi-meta"><span class="kpi-meta-text">RSA · ASPA · AAH</span></div></div>
+      </div>
+      <div class="table-card">
+        <div class="table-toolbar">
+          <button class="filter-pill active">Tous</button>
+          <button class="filter-pill">Premium</button>
+          <button class="filter-pill">Pro</button>
+          <button class="filter-pill">Inactifs 30j</button>
+        </div>
+        <table>
+          <thead><tr><th>Utilisateur</th><th>Plan</th><th>Démarches</th><th>Coffre</th><th>Dernière activité</th><th>Statut</th></tr></thead>
+          <tbody>
+            <tr><td><div class="table-cell-user"><div class="av">AD</div> <div><div style="font-weight:700;">Arnaud Dupont</div><div style="font-size:11px;color:var(--text-mute);">arnaud@gredai.com</div></div></div></td><td><span class="badge-pill b-purple">Admin</span></td><td>14</td><td>74 docs · 2,3 Go</td><td>Il y a 2 min</td><td><span class="badge-pill b-ok">Actif</span></td></tr>
+            <tr><td><div class="table-cell-user"><div class="av">SM</div> <div><div style="font-weight:700;">Sophie Marchand</div><div style="font-size:11px;color:var(--text-mute);">sophie.m@orange.fr</div></div></div></td><td><span class="badge-pill b-purple">Premium</span></td><td>8</td><td>32 docs</td><td>Il y a 18 min</td><td><span class="badge-pill b-ok">Actif</span></td></tr>
+            <tr><td><div class="table-cell-user"><div class="av">KT</div> <div><div style="font-weight:700;">Karim Tlili</div><div style="font-size:11px;color:var(--text-mute);">karim.tlili@gmail.com</div></div></div></td><td><span class="badge-pill b-ok">Pro</span></td><td>23</td><td>112 docs · 4,1 Go</td><td>Il y a 1 h</td><td><span class="badge-pill b-ok">Actif</span></td></tr>
+            <tr><td><div class="table-cell-user"><div class="av">EL</div> <div><div style="font-weight:700;">Élodie Lasnier</div><div style="font-size:11px;color:var(--text-mute);">elodie@studio-bdx.fr</div></div></div></td><td><span class="badge-pill b-purple">Premium</span></td><td>5</td><td>18 docs</td><td>Hier</td><td><span class="badge-pill b-ok">Actif</span></td></tr>
+            <tr><td><div class="table-cell-user"><div class="av">FR</div> <div><div style="font-weight:700;">François Rouet</div><div style="font-size:11px;color:var(--text-mute);">francois.r@laposte.net</div></div></div></td><td><span class="badge-pill">Découverte</span></td><td>2</td><td>6 docs</td><td>2 jours</td><td><span class="badge-pill b-pending">Inactif</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel" data-panel="demarches">
+      <div class="page-head"><div><h1 class="page-title">Démarches — <em>847 actives</em>.</h1><p class="page-sub">Suivi en temps réel des démarches en cours sur la plateforme</p></div></div>
+      <div class="kpi-row">
+        <div class="kpi-card k-blue"><div class="kpi-head"><div class="kpi-label">CERFA remplis</div><div class="kpi-icon">📝</div></div><div class="kpi-value">1 247</div><div class="kpi-meta"><span class="kpi-trend up">▲ +24%</span></div></div>
+        <div class="kpi-card k-orange"><div class="kpi-head"><div class="kpi-label">LRE envoyées</div><div class="kpi-icon">✉️</div></div><div class="kpi-value">312</div><div class="kpi-meta"><span class="kpi-meta-text">CA 1 460 €</span></div></div>
+        <div class="kpi-card k-green"><div class="kpi-head"><div class="kpi-label">Recours gagnés</div><div class="kpi-icon">⚖️</div></div><div class="kpi-value">89</div><div class="kpi-meta"><span class="kpi-trend up">▲ 76% taux succès</span></div></div>
+        <div class="kpi-card k-pink"><div class="kpi-head"><div class="kpi-label">Aides détectées</div><div class="kpi-icon">💰</div></div><div class="kpi-value">412 K€</div><div class="kpi-meta"><span class="kpi-meta-text">cumulé pour les utilisateurs</span></div></div>
+      </div>
+      <div class="table-card">
+        <table>
+          <thead><tr><th>Type</th><th>Utilisateur</th><th>Étape</th><th>Statut</th><th>Mise à jour</th></tr></thead>
+          <tbody>
+            <tr><td><strong>RAPO CAF · Indu APL</strong><div style="font-size:11px;color:var(--text-mute);">CERFA 15473*02</div></td><td>Sophie Marchand</td><td>LRE envoyée</td><td><span class="badge-pill b-ok">Réussie</span></td><td>Hier</td></tr>
+            <tr><td><strong>Carte CSS Sécu</strong><div style="font-size:11px;color:var(--text-mute);">CERFA S3704</div></td><td>Karim Tlili</td><td>En attente CPAM</td><td><span class="badge-pill b-pending">En cours</span></td><td>Il y a 2 h</td></tr>
+            <tr><td><strong>Déclaration impôts</strong><div style="font-size:11px;color:var(--text-mute);">CERFA 11580*05</div></td><td>Élodie Lasnier</td><td>Brouillon</td><td><span class="badge-pill b-info">Draft</span></td><td>Il y a 1 j</td></tr>
+            <tr><td><strong>Inscription France Travail</strong><div style="font-size:11px;color:var(--text-mute);">CERFA 14743*01</div></td><td>François Rouet</td><td>Validation finale</td><td><span class="badge-pill b-pending">À valider</span></td><td>Il y a 1 j</td></tr>
+            <tr><td><strong>Recours impôts</strong><div style="font-size:11px;color:var(--text-mute);">N°2041 RICI</div></td><td>Patrick Berger</td><td>Réponse reçue</td><td><span class="badge-pill b-error">Refus</span></td><td>2 jours</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel" data-panel="documents">
+      <div class="page-head"><div><h1 class="page-title">Coffres-forts — <em>104 312 documents</em>.</h1><p class="page-sub">Tous chiffrés AES-256 · 0 accès admin possible · audit live</p></div></div>
+      <div class="kpi-row">
+        <div class="kpi-card k-blue"><div class="kpi-head"><div class="kpi-label">Documents</div><div class="kpi-icon">🔒</div></div><div class="kpi-value">104 312</div><div class="kpi-meta"><span class="kpi-meta-text">tous chiffrés</span></div></div>
+        <div class="kpi-card k-green"><div class="kpi-head"><div class="kpi-label">Stockage utilisé</div><div class="kpi-icon">💾</div></div><div class="kpi-value">2,4 To</div><div class="kpi-meta"><span class="kpi-meta-text">OVH France</span></div></div>
+        <div class="kpi-card k-orange"><div class="kpi-head"><div class="kpi-label">OCR exécutés</div><div class="kpi-icon">👁️</div></div><div class="kpi-value">98 712</div><div class="kpi-meta"><span class="kpi-trend up">▲ 99,4%</span></div></div>
+        <div class="kpi-card k-pink"><div class="kpi-head"><div class="kpi-label">Tentatives accès admin</div><div class="kpi-icon">🛡️</div></div><div class="kpi-value">0</div><div class="kpi-meta"><span class="kpi-meta-text">par design : impossible</span></div></div>
+      </div>
+      <div style="background: linear-gradient(135deg, var(--bleu-pale), white); border: 1px solid var(--bleu-clair); border-radius: var(--radius-lg); padding: 24px; display: flex; gap: 16px; align-items: center;">
+        <div style="font-size: 40px;">🛡️</div>
+        <div>
+          <div style="font-weight: 800; font-size: 16px; margin-bottom: 4px;">Architecture Zero-Knowledge active</div>
+          <div style="font-size: 13px; color: var(--text-soft);">Vous voyez ici les <strong>métadonnées</strong> (taille, type, dates) — jamais le contenu. La clé de déchiffrement est dérivée du passphrase FranceConnect de chaque utilisateur. Aucune procédure interne, aucun ordre de tribunal ne peut donner accès au contenu.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" data-panel="press">
+      <div class="page-head"><div><h1 class="page-title">Presse · <em>communication externe</em>.</h1><p class="page-sub">Demandes journalistes, interviews, communiqués</p></div></div>
+      <div class="kpi-row">
+        <div class="kpi-card k-pink"><div class="kpi-head"><div class="kpi-label">Demandes presse</div><div class="kpi-icon">📰</div></div><div class="kpi-value">14</div><div class="kpi-meta"><span class="kpi-trend up">▲ +6 ce mois</span></div></div>
+        <div class="kpi-card k-blue"><div class="kpi-head"><div class="kpi-label">Articles publiés</div><div class="kpi-icon">📄</div></div><div class="kpi-value">9</div><div class="kpi-meta"><span class="kpi-meta-text">Le Monde, Numerama, Frenchweb…</span></div></div>
+        <div class="kpi-card k-orange"><div class="kpi-head"><div class="kpi-label">Interviews radio/TV</div><div class="kpi-icon">🎤</div></div><div class="kpi-value">3</div><div class="kpi-meta"><span class="kpi-meta-text">France Inter · BFM · TF1</span></div></div>
+        <div class="kpi-card k-green"><div class="kpi-head"><div class="kpi-label">Mentions positives</div><div class="kpi-icon">💚</div></div><div class="kpi-value">94%</div><div class="kpi-meta"><span class="kpi-meta-text">analyse sentiment auto</span></div></div>
+      </div>
+    </section>
+
+    <section class="panel" data-panel="api">
+      <div class="page-head"><div><h1 class="page-title">API & Logs — <em>tout est OK</em>.</h1><p class="page-sub">Statut des intégrations · 99,93% uptime sur 30 jours</p></div></div>
+      <div class="kpi-row">
+        <div class="kpi-card k-green"><div class="kpi-head"><div class="kpi-label">Uptime API</div><div class="kpi-icon">✅</div></div><div class="kpi-value">99,93%</div><div class="kpi-meta"><span class="kpi-meta-text">30 jours</span></div></div>
+        <div class="kpi-card k-blue"><div class="kpi-head"><div class="kpi-label">Requêtes /h</div><div class="kpi-icon">⚡</div></div><div class="kpi-value">14 720</div><div class="kpi-meta"><span class="kpi-trend up">▲ pic vendredi</span></div></div>
+        <div class="kpi-card k-orange"><div class="kpi-head"><div class="kpi-label">Tokens IA /jour</div><div class="kpi-icon">🤖</div></div><div class="kpi-value">12,4 M</div><div class="kpi-meta"><span class="kpi-meta-text">coût ~ 84 € /j</span></div></div>
+        <div class="kpi-card k-pink"><div class="kpi-head"><div class="kpi-label">Erreurs 5xx</div><div class="kpi-icon">🚨</div></div><div class="kpi-value">0,07%</div><div class="kpi-meta"><span class="kpi-meta-text">cible &lt; 0,1%</span></div></div>
+      </div>
+      <div class="table-card">
+        <div class="table-toolbar"><strong style="font-size:13px;">Intégrations connectées</strong></div>
+        <table>
+          <thead><tr><th>Service</th><th>Type</th><th>Latence p95</th><th>Uptime</th><th>Statut</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Légifrance</strong></td><td>RAG officiel</td><td>180 ms</td><td>99,98%</td><td><span class="badge-pill b-ok">● OK</span></td></tr>
+            <tr><td><strong>Service-Public.fr</strong></td><td>RAG fiches</td><td>240 ms</td><td>99,82%</td><td><span class="badge-pill b-pending">● Lent</span></td></tr>
+            <tr><td><strong>FranceConnect+</strong></td><td>Auth eIDAS</td><td>320 ms</td><td>100%</td><td><span class="badge-pill b-ok">● OK</span></td></tr>
+            <tr><td><strong>AR24 La Poste</strong></td><td>LRE qualifiée</td><td>1,2 s</td><td>99,99%</td><td><span class="badge-pill b-ok">● OK</span></td></tr>
+            <tr><td><strong>OpenAI / Claude</strong></td><td>LLM Enterprise</td><td>620 ms</td><td>99,90%</td><td><span class="badge-pill b-ok">● OK</span></td></tr>
+            <tr><td><strong>ElevenLabs</strong></td><td>TTS voix Léa</td><td>410 ms</td><td>99,95%</td><td><span class="badge-pill b-ok">● OK</span></td></tr>
+            <tr><td><strong>Stripe</strong></td><td>Paiements</td><td>140 ms</td><td>100%</td><td><span class="badge-pill b-ok">● OK</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel" data-panel="settings">
+      <div class="page-head"><div><h1 class="page-title">Réglages — <em>plateforme</em>.</h1><p class="page-sub">Configuration globale · environnement <strong style="color: var(--vert);">production</strong></p></div></div>
+      <div style="background: white; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 28px;">
+        <div style="font-weight: 800; font-size: 16px; margin-bottom: 16px;">Mode démo · réinitialisation</div>
+        <p style="color: var(--text-soft); font-size: 13px; margin-bottom: 16px;">
+          Ce back-office utilise le <strong>localStorage</strong> de votre navigateur pour stocker les emails reçus depuis le formulaire de contact de la landing.
+          Cliquez ci-dessous pour rétablir les données de démo ou tout effacer.
+        </p>
+        <div style="display: flex; gap: 8px;">
+          <button class="filter-pill" onclick="seedDemo();">🎁 Re-seed démo</button>
+          <button class="filter-pill" onclick="if(confirm('Vider tous les mails ?')){localStorage.removeItem('siaInbox');location.reload();}" style="background: var(--rouge-soft); color: var(--rouge);">🗑️ Effacer tout</button>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<!-- COMPOSE MODAL -->
+<div class="compose-modal" id="composeModal">
+  <div class="compose-card">
+    <div class="compose-head">
+      <h3>✏️ Nouveau message</h3>
+      <button class="compose-close" id="composeClose">✕</button>
+    </div>
+    <div class="compose-body">
+      <div class="compose-field">
+        <label class="compose-field-label">À</label>
+        <input type="email" placeholder="destinataire@exemple.fr" id="cTo">
+      </div>
+      <div class="compose-field">
+        <label class="compose-field-label">Objet</label>
+        <input type="text" placeholder="Sujet du message…" id="cSubject">
+      </div>
+      <div class="compose-field">
+        <label class="compose-field-label">Message</label>
+        <textarea placeholder="Tapez votre message…" id="cBody"></textarea>
+      </div>
+    </div>
+    <div class="compose-actions">
+      <button class="reply-tpl">📎 Joindre</button>
+      <button class="reply-tpl">🤖 Brouillon par IA</button>
+      <button class="reply-send" id="composeSend" style="margin-left: auto;">→ Envoyer</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"><span id="toastIcon">✓</span><span id="toastText">Action effectuée</span></div>
+
+<script>
+  // =========== DEMO DATA ===========
+  const DEMO_INBOX = [
+    {
+      id: 'd1', from: 'Marie Petit', email: 'marie.petit@gmail.com', initials: 'MP', avatarVar: 1,
+      subject: 'Question sur la sécurité du coffre-fort',
+      preview: 'Bonjour, j\'ai vu votre site et je me demandais qui peut vraiment voir les documents que je mets dans le coffre-fort...',
+      body: 'Bonjour,\n\nJ\'ai découvert Simplif\'IA via un article du Monde et je suis très intéressée. Mais avant de mettre des documents sensibles (avis d\'imposition, fiche de paie...) dans le coffre-fort, j\'aimerais comprendre concrètement qui peut y accéder.\n\nVotre équipe peut-elle voir mes fichiers ? Et si la justice vous demande mes données, vous pourriez les leur donner ?\n\nJ\'ai besoin d\'être rassurée avant de m\'inscrire. Merci pour votre réponse rapide.\n\nMarie',
+      tag: 'contact', time: 'il y a 2 min', timestamp: Date.now() - 2*60*1000,
+      unread: true, starred: false,
+      aiSuggest: 'Cette personne a une question légitime sur la sécurité. Réponse recommandée : expliquer l\'architecture zero-knowledge (chiffrement AES-256 dérivé du passphrase FranceConnect, donc l\'équipe ne peut techniquement pas voir les fichiers, même sur réquisition judiciaire).'
+    },
+    {
+      id: 'd2', from: 'Le Monde · Sandra Cohen', email: 'scohen@lemonde.fr', initials: 'SC', avatarVar: 4,
+      subject: 'Demande d\'interview pour un papier sur l\'IA admin',
+      preview: 'Bonjour, je prépare un dossier sur l\'IA appliquée aux démarches administratives pour le supplément économie...',
+      body: 'Bonjour Arnaud,\n\nJe prépare un dossier pour le supplément Économie du Monde sur l\'IA appliquée aux démarches administratives, qui sortira dans 3 semaines.\n\nVotre approche RAG-strict avec sources Légifrance m\'intéresse particulièrement, car la plupart des solutions sur le marché hallucinent allègrement.\n\nSeriez-vous disponible pour un entretien d\'environ 45 minutes la semaine prochaine ? Je peux me déplacer à votre bureau ou faire ça en visio.\n\nIdéalement avant le 16 mai pour respecter le calendrier rédactionnel.\n\nBien à vous,\nSandra Cohen\nJournaliste · Service Économie · Le Monde',
+      tag: 'press', time: 'il y a 1 h', timestamp: Date.now() - 60*60*1000,
+      unread: true, starred: true,
+      aiSuggest: 'Opportunité presse premium · Le Monde supplément éco. Réponse recommandée : accepter, proposer 3 créneaux la semaine prochaine, joindre votre kit presse.'
+    },
+    {
+      id: 'd3', from: 'Karim Tlili', email: 'karim.tlili@gmail.com', initials: 'KT', avatarVar: 2,
+      subject: '[Support] Mon père n\'arrive pas à activer FranceConnect',
+      preview: 'Hello, j\'ai inscrit mon père hier mais quand il essaie de se connecter avec FranceConnect Identité Numérique...',
+      body: 'Hello,\n\nJ\'ai inscrit mon père (78 ans) hier soir sur Simplif\'IA mais quand il essaie de se connecter avec FranceConnect Identité Numérique La Poste, il bloque sur l\'écran de validation par SMS.\n\nIl reçoit bien le SMS mais quand il tape le code, ça lui dit "Code expiré". On a réessayé 3 fois.\n\nDes idées ? Sinon est-ce qu\'il y a un autre moyen de se connecter ? J\'aimerais beaucoup qu\'il puisse utiliser le service.\n\nMerci !\nKarim',
+      tag: 'support', time: 'il y a 38 min', timestamp: Date.now() - 38*60*1000,
+      unread: true, starred: false,
+      aiSuggest: 'Bug connu côté FranceConnect Identité Numérique : le SMS arrive parfois après expiration. Solution : passer par "Identité Numérique La Poste niveau substantiel" alternatif (validation par scan de pièce d\'identité). Réponse type disponible.'
+    },
+    {
+      id: 'd4', from: 'Julien Marchand', email: 'j.marchand@assosocial.fr', initials: 'JM', avatarVar: 3,
+      subject: 'Partenariat avec notre asso d\'aide aux personnes âgées',
+      preview: 'Bonjour, je suis directeur d\'une association qui accompagne 1 200 seniors en Île-de-France...',
+      body: 'Bonjour,\n\nJe suis directeur de "Vivre Ensemble", une association qui accompagne 1 200 seniors en Île-de-France pour leurs démarches administratives.\n\nVotre solution semble parfaite pour outiller nos travailleurs sociaux (12 personnes) et nous permettrait de gagner un temps fou.\n\nPourrions-nous discuter d\'un partenariat ? Tarif préférentiel pour le secteur associatif, formation incluse, peut-être un module dédié aux aidants familiaux ?\n\nJe suis disponible pour un café à Paris quand vous voulez.\n\nCordialement,\nJulien Marchand',
+      tag: 'partner', time: 'il y a 3 h', timestamp: Date.now() - 3*60*60*1000,
+      unread: false, starred: true,
+      aiSuggest: 'Lead Pro/Aidants chaud. 12 sièges × 49€ = 588 €/mois. Réponse recommandée : proposer un tarif associatif (-30%), une démo de 30 min en visio, et envoyer le pitch deck Pro/Aidants.'
+    },
+    {
+      id: 'd5', from: 'Pôle Emploi · Direction innovation', email: 'innovation@francetravail.fr', initials: 'FT', avatarVar: 5,
+      subject: 'Présentation de Simplif\'IA à notre direction innovation',
+      preview: 'Bonjour Arnaud, suite à notre rencontre au salon VivaTech...',
+      body: 'Bonjour Arnaud,\n\nSuite à notre rencontre au salon VivaTech la semaine dernière, je serais ravi que vous présentiez votre solution à notre comité innovation.\n\nNous étudions les briques tech qui pourraient enrichir notre parcours utilisateur, notamment pour les demandeurs d\'emploi peu à l\'aise avec le numérique.\n\nDate proposée : 22 mai, 14h, La Défense (ou visio si plus simple). Format : 20 min de présentation + 30 min de questions devant 8 personnes.\n\nMerci de me dire si vous êtes dispo.\n\nCédric Bertrand\nDirecteur innovation · France Travail',
+      tag: 'partner', time: 'hier', timestamp: Date.now() - 24*60*60*1000,
+      unread: false, starred: true,
+      aiSuggest: 'Lead institutionnel majeur. Préparer démo orientée "demandeurs d\'emploi peu à l\'aise avec le numérique" avec mode FALC et avatar voix.'
+    },
+    {
+      id: 'd6', from: 'Claire Beaumont', email: 'claire.bm@yahoo.fr', initials: 'CB', avatarVar: 6,
+      subject: '[Support] Comment supprimer mon compte ?',
+      preview: 'Bonjour, j\'aimerais supprimer mon compte et tous mes documents pour des raisons personnelles...',
+      body: 'Bonjour,\n\nJ\'aimerais supprimer mon compte Simplif\'IA et tous mes documents pour des raisons personnelles.\n\nJe ne trouve pas l\'option dans les réglages. Pouvez-vous m\'aider ?\n\nMerci,\nClaire',
+      tag: 'support', time: '2 jours', timestamp: Date.now() - 2*24*60*60*1000,
+      unread: false, starred: false,
+      aiSuggest: 'Suppression de compte (RGPD article 17). Réponse type : confirmer la procédure, expliquer que les documents seront définitivement détruits (clés cryptographiques effacées), demander confirmation puis exécuter sous 30 jours max.'
+    },
+    {
+      id: 'd7', from: 'Numerama · Loïc Mariotti', email: 'lmariotti@numerama.com', initials: 'LM', avatarVar: 1,
+      subject: 'Suite à notre échange : feedback sur l\'article publié',
+      preview: 'Bonjour Arnaud, je voulais te faire un retour sur l\'article qu\'on a publié hier...',
+      body: 'Bonjour Arnaud,\n\nJe voulais te faire un retour sur l\'article que Numerama a publié hier sur Simplif\'IA. On a fait 47K vues en 24h, top du classement de la rubrique « tech ».\n\nLes commentaires sont très positifs (~92% de feedback positif d\'après notre modération), avec une vraie attente sur le déploiement grand public.\n\nGrosse demande aussi : « est-ce que ça va devenir gratuit pour tout le monde un jour ? »\n\nÀ très vite,\nLoïc',
+      tag: 'press', time: '3 jours', timestamp: Date.now() - 3*24*60*60*1000,
+      unread: false, starred: false,
+      aiSuggest: 'Feedback presse positif. Action : remercier, demander si on peut publier la mention sur le site (témoignage), discuter d\'un follow-up dans 6 mois.'
+    }
+  ];
+
+  // =========== STATE ===========
+  let inbox = JSON.parse(localStorage.getItem('siaInbox') || 'null') || DEMO_INBOX;
+  let currentFilter = 'all';
+  let selectedId = null;
+  let searchQuery = '';
+
+  function saveInbox() { localStorage.setItem('siaInbox', JSON.stringify(inbox)); }
+
+  function seedDemo() {
+    inbox = DEMO_INBOX.map(m => ({ ...m }));
+    saveInbox();
+    renderInbox(); renderViewer();
+    showToast('🎁 Données de démo restaurées');
+  }
+
+  // === Pull form submissions from landing (siaContacts) ===
+  function pullContactSubmissions() {
+    const subs = JSON.parse(localStorage.getItem('siaContacts') || '[]');
+    if (!subs.length) return 0;
+    let added = 0;
+    subs.forEach(s => {
+      if (inbox.find(m => m.id === s.id)) return;
+      inbox.unshift({
+        id: s.id,
+        from: s.name || 'Anonyme',
+        email: s.email || 'anonyme@inconnu.fr',
+        initials: (s.name || 'A?').split(' ').map(p=>p[0]).join('').slice(0,2).toUpperCase(),
+        avatarVar: Math.floor(Math.random()*6)+1,
+        subject: s.subject || '[Formulaire de contact]',
+        preview: (s.body || '').slice(0,140),
+        body: s.body || '',
+        tag: s.type || 'contact',
+        time: 'à l\'instant',
+        timestamp: s.timestamp || Date.now(),
+        unread: true, starred: false,
+        aiSuggest: 'Nouveau message reçu via le formulaire de contact de la landing. Maître Léa peut suggérer une réponse adaptée au ton et au sujet.'
+      });
+      added++;
+    });
+    if (added) {
+      localStorage.removeItem('siaContacts');
+      saveInbox();
+    }
+    return added;
+  }
+
+  // =========== RENDER ===========
+  const inboxList = document.getElementById('inboxList');
+  const mailViewer = document.getElementById('mailViewer');
+  const tagLabel = { contact: 'Contact', waitlist: 'Waitlist', support: 'Support', partner: 'Partenaire', press: 'Presse', demo: 'Demo' };
+
+  function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+  function filteredInbox() {
+    let list = inbox;
+    if (currentFilter === 'unread') list = list.filter(m => m.unread);
+    else if (currentFilter === 'starred') list = list.filter(m => m.starred);
+    else if (currentFilter !== 'all') list = list.filter(m => m.tag === currentFilter);
+    if (searchQuery) {
+      const q = searchQuery.toLowerCase();
+      list = list.filter(m =>
+        m.from.toLowerCase().includes(q) ||
+        m.subject.toLowerCase().includes(q) ||
+        m.preview.toLowerCase().includes(q)
+      );
+    }
+    return list;
+  }
+
+  function renderInbox() {
+    const list = filteredInbox();
+    if (!list.length) {
+      inboxList.innerHTML = '<div class="inbox-empty"><div class="inbox-empty-icon">📭</div>Aucun message dans cette catégorie.</div>';
+    } else {
+      inboxList.innerHTML = list.map(m => `
+        <div class="inbox-item ${m.unread ? 'unread' : ''} ${m.id === selectedId ? 'selected' : ''}" data-id="${m.id}" role="button" tabindex="0">
+          <div class="inbox-avatar av-${m.avatarVar}">${escapeHtml(m.initials)}</div>
+          <div class="inbox-content">
+            <div class="inbox-line1">
+              <span class="inbox-from">${escapeHtml(m.from)}</span>
+              <span class="inbox-tag ${m.tag}">${tagLabel[m.tag] || m.tag}</span>
+            </div>
+            <div class="inbox-subject">${escapeHtml(m.subject)}</div>
+            <div class="inbox-preview">${escapeHtml(m.preview)}</div>
+          </div>
+          <div class="inbox-meta">
+            <span class="inbox-time">${escapeHtml(m.time)}</span>
+            <button class="inbox-stars ${m.starred ? 'starred' : ''}" data-star="${m.id}" title="Marquer comme étoilé" aria-label="Marquer comme étoilé">${m.starred ? '⭐' : '☆'}</button>
+          </div>
+        </div>
+      `).join('');
+    }
+    // counts
+    document.getElementById('cTab-all').textContent = inbox.length;
+    document.getElementById('cTab-unread').textContent = inbox.filter(m => m.unread).length;
+    document.getElementById('cTab-contact').textContent = inbox.filter(m => m.tag === 'contact').length;
+    document.getElementById('cTab-support').textContent = inbox.filter(m => m.tag === 'support').length;
+    document.getElementById('cTab-press').textContent = inbox.filter(m => m.tag === 'press').length;
+    document.getElementById('totalMails').textContent = inbox.length;
+    const u = inbox.filter(m => m.unread).length;
+    document.getElementById('unreadCount').textContent = u + ' non lu' + (u > 1 ? 's' : '');
+    document.getElementById('badge-unread').textContent = u || '';
+    document.getElementById('badge-unread').style.display = u ? 'inline' : 'none';
+    bindInboxItems();
+  }
+
+  function bindInboxItems() {
+    inboxList.querySelectorAll('.inbox-item').forEach(el => {
+      el.addEventListener('click', e => {
+        if (e.target.dataset.star) return;
+        selectMail(el.dataset.id);
+      });
+      el.addEventListener('keypress', e => { if (e.key === 'Enter') selectMail(el.dataset.id); });
+    });
+    inboxList.querySelectorAll('[data-star]').forEach(b => {
+      b.addEventListener('click', e => {
+        e.stopPropagation();
+        const id = b.dataset.star;
+        const m = inbox.find(x => x.id === id);
+        if (m) { m.starred = !m.starred; saveInbox(); renderInbox(); }
+      });
+    });
+  }
+
+  function selectMail(id) {
+    selectedId = id;
+    const m = inbox.find(x => x.id === id);
+    if (m && m.unread) { m.unread = false; saveInbox(); }
+    renderInbox();
+    renderViewer();
+  }
+
+  function renderViewer() {
+    if (!selectedId) {
+      mailViewer.innerHTML = `
+        <div class="mail-empty">
+          <div class="mail-empty-icon">📭</div>
+          <h3>Sélectionnez un message</h3>
+          <p>Cliquez sur un mail à gauche pour le lire ici. Maître Léa peut suggérer une réponse en 1 clic.</p>
+        </div>`;
+      return;
+    }
+    const m = inbox.find(x => x.id === selectedId);
+    if (!m) return;
+    const bodyHtml = escapeHtml(m.body).replace(/\n\n/g, '</p><p>').replace(/\n/g, '<br>');
+    mailViewer.innerHTML = `
+      <div class="mail-toolbar">
+        <button class="mail-btn primary" onclick="document.getElementById('replyArea').focus();">↩️ Répondre</button>
+        <button class="mail-btn">↪️ Transférer</button>
+        <button class="mail-btn" onclick="toggleStar('${m.id}')">${m.starred ? '⭐ Étoilé' : '☆ Étoiler'}</button>
+        <button class="mail-btn warn">🔕 Marquer non lu</button>
+        <button class="mail-btn">📦 Archiver</button>
+        <button class="mail-btn danger" onclick="deleteMail('${m.id}')">🗑️ Supprimer</button>
+      </div>
+      <div class="mail-head">
+        <h2 class="mail-subject">${escapeHtml(m.subject)}</h2>
+        <div class="mail-tags"><span class="inbox-tag ${m.tag}">${tagLabel[m.tag] || m.tag}</span></div>
+        <div class="mail-from-row">
+          <div class="mail-from-av">${escapeHtml(m.initials)}</div>
+          <div class="mail-from-info">
+            <div class="mail-from-name">${escapeHtml(m.from)}</div>
+            <div class="mail-from-email">${escapeHtml(m.email)}</div>
+          </div>
+          <div class="mail-time">${escapeHtml(m.time)}<br><span style="font-size: 10px; opacity: 0.7;">à arnaud@gredai.com</span></div>
+        </div>
+      </div>
+      <div class="mail-body">
+        <p>${bodyHtml}</p>
+        <div class="mail-ai-box">
+          <div class="mail-ai-tag">✨ Suggestion de Maître Léa</div>
+          <div class="mail-ai-content">${escapeHtml(m.aiSuggest || '')}</div>
+          <div class="mail-ai-actions">
+            <button class="mail-ai-action" onclick="aiDraft('${m.id}')">✍️ Rédiger une réponse</button>
+            <button class="mail-ai-action">🔍 Analyser le ton</button>
+            <button class="mail-ai-action">📋 Créer un ticket</button>
+          </div>
+        </div>
+      </div>
+      <div class="mail-reply">
+        <div class="reply-tabs">
+          <button class="reply-tab active">↩️ Répondre</button>
+          <button class="reply-tab">↪️ Transférer</button>
+          <button class="reply-tab">📝 Note interne</button>
+        </div>
+        <textarea class="reply-textarea" id="replyArea" placeholder="Tapez votre réponse… ou demandez à Maître Léa d'en générer une."></textarea>
+        <div class="reply-actions">
+          <button class="reply-send" onclick="sendReply('${m.id}')">→ Envoyer</button>
+          <button class="reply-tpl" onclick="document.getElementById('replyArea').value='Bonjour ' + ${JSON.stringify(m.from)}.split(' ')[0] + ',\\n\\nMerci pour votre message. ';">📝 Bonjour {prénom}</button>
+          <div class="reply-templates">
+            <button class="reply-tpl" onclick="aiDraft('${m.id}')">🤖 Réponse IA</button>
+            <button class="reply-tpl">📌 Modèles</button>
+            <button class="reply-tpl">📎 Joindre</button>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  // =========== ACTIONS ===========
+  window.toggleStar = function(id) {
+    const m = inbox.find(x => x.id === id);
+    if (m) { m.starred = !m.starred; saveInbox(); renderInbox(); renderViewer(); }
+  };
+  window.deleteMail = function(id) {
+    if (!confirm('Supprimer ce message définitivement ?')) return;
+    inbox = inbox.filter(x => x.id !== id);
+    selectedId = null; saveInbox(); renderInbox(); renderViewer();
+    showToast('🗑️ Message supprimé');
+  };
+  window.sendReply = function(id) {
+    const txt = document.getElementById('replyArea').value.trim();
+    if (!txt) { showToast('⚠️ Réponse vide'); return; }
+    showToast('✅ Réponse envoyée à ' + (inbox.find(x => x.id === id) || {}).email, true);
+    document.getElementById('replyArea').value = '';
+  };
+  window.aiDraft = function(id) {
+    const m = inbox.find(x => x.id === id);
+    const drafts = {
+      d1: 'Bonjour Marie,\n\nMerci pour votre message — c\'est exactement la bonne question à poser avant de confier des documents sensibles.\n\nLa réponse courte : ni notre équipe, ni la justice, ni un hacker ne peuvent ouvrir vos fichiers. Voici pourquoi techniquement.\n\nQuand vous mettez un document dans votre coffre, il est chiffré en AES-256 sur votre appareil avant d\'arriver chez nous. La clé de déchiffrement est dérivée de votre passphrase FranceConnect — nous ne la stockons jamais. Concrètement, ce qui arrive sur nos serveurs, c\'est du bruit cryptographique.\n\nMême si un juge nous demande vos données (et c\'est arrivé une fois), nous pouvons fournir le fichier chiffré, pas son contenu. Notre architecture est zero-knowledge by design.\n\nVous pouvez faire le test : déconnectez-vous, nous-même ne pouvons plus ouvrir votre coffre.\n\nN\'hésitez pas si vous avez d\'autres questions.\n\nArnaud',
+      d2: 'Bonjour Sandra,\n\nMerci pour cette belle proposition — Le Monde, c\'est un signal fort pour nous.\n\nJe suis disponible la semaine prochaine. Trois créneaux qui m\'arrangent :\n— mardi 13 mai, 10h\n— mercredi 14 mai, 14h30\n— vendredi 16 mai, 9h30\n\nJe préfère un entretien physique si possible (vous pouvez venir au bureau, 12 rue Lafayette à Paris 9e), sinon visio sans souci.\n\nJe vous envoie en pièce jointe notre kit presse (chiffres, captures, citations utilisables) — vous y trouverez tout ce qu\'il faut pour préparer.\n\nÀ très vite,\nArnaud',
+      d3: 'Hello Karim,\n\nC\'est un bug connu côté FranceConnect : leur SMS arrive parfois après expiration sur les opérateurs un peu lents (Orange notamment).\n\nDeux solutions pour ton père :\n\n1. Plus simple : passer par "La Poste · Identité Numérique niveau substantiel" plutôt que "Identité Numérique" tout court. C\'est sur le même écran de connexion FranceConnect, juste un autre choix. Au lieu d\'un SMS, ça lui demandera de scanner sa carte d\'identité et son visage (validation visuelle).\n\n2. Sinon je peux activer chez nous le fallback "magic link par email" — il reçoit un lien par mail et il clique, sans aucun code à taper. Dis-moi si tu veux que je l\'active sur son compte.\n\nDans tous les cas n\'hésite pas à m\'écrire si ça bloque encore.\n\nArnaud',
+      d4: 'Bonjour Julien,\n\nVotre message me ravit — l\'aide aux seniors, c\'est exactement le cœur de notre mission.\n\nQuelques pistes concrètes pour un partenariat :\n\n— Tarif associatif : 30% sur le plan Pro/Aidants (soit ~34€/mois × 12 sièges = 412€/mois au lieu de 588€).\n— Module dédié : on a déjà un mode FALC + voix lente pour les seniors, je peux te montrer ça.\n— Formation : 2 sessions de 2h pour vos travailleurs sociaux, incluses.\n\nJe propose qu\'on se rencontre la semaine prochaine. Disponibilités : lundi/mardi après-midi à Paris. Je peux venir chez vous.\n\nÀ très vite,\nArnaud',
+      d5: 'Bonjour Cédric,\n\nMerci pour cette proposition — le sujet "demandeurs d\'emploi peu à l\'aise avec le numérique" colle parfaitement avec notre approche FALC + avatar voix.\n\nJe confirme ma disponibilité le 22 mai à 14h, à La Défense.\n\nJe préparerai une démo de 20 min orientée sur :\n— mode FALC (Facile à Lire et Comprendre, validé UNAPEI)\n— Maître Léa en mode voix lente, avec sous-titres\n— remplissage CERFA 14743*01 (inscription France Travail) en direct\n\nJ\'aurai aussi un mini-deck de 8 slides à laisser à votre comité.\n\nÀ très bientôt,\nArnaud',
+      d6: 'Bonjour Claire,\n\nJe peux supprimer votre compte définitivement, sans aucune objection.\n\nVoici la procédure RGPD que je vais déclencher :\n\n1. Confirmation de votre identité par email (je vais vous envoyer un lien sécurisé à cliquer).\n2. Effacement irréversible des clés cryptographiques de votre coffre (vos documents deviennent illisibles, par personne, y compris nous).\n3. Suppression définitive sous 30 jours maximum (article 17 RGPD).\n\nÀ aucun moment vos documents ne seront lus avant suppression — on supprime simplement les clés, ce qui les rend cryptographiquement morts.\n\nVous recevrez une attestation de suppression par email à la fin.\n\nDites-moi si vous voulez que je lance la procédure ou si vous préférez attendre.\n\nArnaud',
+      d7: 'Hello Loïc,\n\nMerci pour ce retour — 47K vues en 24h, on n\'en revient pas. Et ravi que les commentaires soient majoritairement positifs.\n\nSur la question "ça deviendra gratuit pour tout le monde un jour ?" : la réponse est oui pour les bénéficiaires des minima sociaux (RSA, ASPA, AAH, ASS), c\'est déjà le cas. Pour le reste, le tarif Premium à 9,99€/mois nous permet de financer le service gratuit. Si on grandit assez, on pourrait élargir la gratuité à d\'autres tranches.\n\nQuestion : est-ce qu\'on peut publier le retour positif sur notre site ("47K vues en 24h sur Numerama") ? Avec ton accord et celui de la rédac.\n\nOn refait un point dans 6 mois ?\n\nArnaud'
+    };
+    document.getElementById('replyArea').value = drafts[id] || 'Bonjour ' + m.from.split(' ')[0] + ',\n\nMerci pour votre message…\n\nArnaud';
+    document.getElementById('replyArea').focus();
+    showToast('✨ Brouillon généré par Maître Léa');
+  };
+
+  // =========== TABS ===========
+  document.querySelectorAll('.inbox-tab').forEach(t => t.addEventListener('click', () => {
+    document.querySelectorAll('.inbox-tab').forEach(x => x.classList.remove('active'));
+    t.classList.add('active');
+    currentFilter = t.dataset.filter || 'all';
+    renderInbox();
+  }));
+
+  document.getElementById('inboxFilter').addEventListener('input', e => {
+    searchQuery = e.target.value;
+    renderInbox();
+  });
+
+  // =========== SIDEBAR PANEL SWITCHING ===========
+  document.querySelectorAll('.side-link').forEach(l => l.addEventListener('click', () => {
+    document.querySelectorAll('.side-link').forEach(x => x.classList.remove('active'));
+    l.classList.add('active');
+    const target = l.dataset.go;
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    const panel = document.querySelector(`.panel[data-panel="${target}"]`);
+    if (panel) panel.classList.add('active');
+    document.getElementById('crumb').textContent = l.querySelector('span:nth-child(2)').textContent;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }));
+
+  // =========== COMPOSE ===========
+  const composeModal = document.getElementById('composeModal');
+  document.getElementById('newComposeBtn').addEventListener('click', () => composeModal.classList.add('open'));
+  document.getElementById('composeClose').addEventListener('click', () => composeModal.classList.remove('open'));
+  composeModal.addEventListener('click', e => { if (e.target === composeModal) composeModal.classList.remove('open'); });
+  document.getElementById('composeSend').addEventListener('click', () => {
+    showToast('✅ Message envoyé');
+    composeModal.classList.remove('open');
+    document.getElementById('cTo').value = '';
+    document.getElementById('cSubject').value = '';
+    document.getElementById('cBody').value = '';
+  });
+
+  // =========== TOAST ===========
+  function showToast(text, success) {
+    const t = document.getElementById('toast');
+    document.getElementById('toastText').textContent = text;
+    t.classList.toggle('success', !!success);
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2500);
+  }
+  window.showToast = showToast;
+  window.seedDemo = seedDemo;
+
+  // =========== KEYBOARD ===========
+  document.addEventListener('keydown', e => {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+      e.preventDefault();
+      document.querySelector('.topbar-search input').focus();
+    }
+  });
+
+  // =========== INIT ===========
+  if (!localStorage.getItem('siaInbox')) saveInbox();
+  const added = pullContactSubmissions();
+  renderInbox();
+  if (added > 0) showToast(`📬 ${added} nouveau${added>1?'x':''} message${added>1?'s':''} reçu${added>1?'s':''} via la landing`, true);
+
+  // Auto-poll for new submissions every 5s
+  setInterval(() => {
+    const a = pullContactSubmissions();
+    if (a > 0) {
+      renderInbox();
+      showToast(`📬 ${a} nouveau message via la landing`, true);
+    }
+  }, 5000);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Fonctionnalités · Simplif'IA France</title>
+<meta name="description" content="8 fonctionnalités pour gérer toute votre paperasse : avatar IA, anti-jargon, CERFA pré-remplis, coffre-fort chiffré, LRE AR24, agent email Sophie.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<style>
+  .feat-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin: 40px 0; }
+  @media (max-width: 800px) { .feat-grid { grid-template-columns: 1fr; } }
+  .feat { background: white; border: 1px solid var(--border); border-radius: 20px; padding: 32px; transition: all 0.3s; }
+  .feat:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: var(--bleu-clair); }
+  .feat-icon { width: 64px; height: 64px; border-radius: 16px; background: linear-gradient(135deg, var(--bleu-pale), white); display: flex; align-items: center; justify-content: center; font-size: 32px; margin-bottom: 18px; }
+  .feat h3 { font-size: 22px; margin-bottom: 10px; }
+  .feat p { color: var(--text-soft); line-height: 1.7; margin-bottom: 14px; }
+  .feat-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  .feat-tag { background: var(--bleu-pale); color: var(--bleu); padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 700; }
+</style>
+</head>
+<body>
+<nav class="site-nav">
+  <a href="index.html" class="site-nav-brand"><div class="site-nav-mark"></div>Simplif'IA <span style="color:var(--rouge);margin-left:-2px;">France</span></a>
+  <div class="site-nav-links"><a href="fonctionnalites.html" style="color:var(--bleu);font-weight:700;">Fonctionnalités</a><a href="tarifs.html">Tarifs</a><a href="apropos.html">À propos</a><a href="aide.html">Aide</a><a href="contact.html">Contact</a></div>
+  <div class="site-nav-cta"><a href="connexion.html" class="btn btn-ghost btn-sm">Connexion</a><a href="inscription.html" class="btn btn-primary btn-sm">Essayer</a></div>
+</nav>
+
+<header class="hero">
+  <div class="container">
+    <span class="section-tag">Fonctionnalités</span>
+    <h1>Tout ce qu'il faut<br><span class="accent">pour votre paperasse.</span></h1>
+    <p>8 modules complémentaires couvrent l'intégralité de vos démarches admin françaises, du courrier reçu à la lettre recommandée envoyée.</p>
+  </div>
+</header>
+
+<section style="padding-top:0;"><div class="container">
+  <div class="feat-grid">
+    <div class="feat">
+      <div class="feat-icon">🎙️</div>
+      <h3>Avatar IA juridique · Maître Léa</h3>
+      <p>Conseillère juridique IA qui parle, écoute et répond à vos questions sourcées par Légifrance, Service-Public.fr et BOFiP. Voix premium ElevenLabs en français naturel.</p>
+      <div class="feat-tags"><span class="feat-tag">Voix réaliste</span><span class="feat-tag">RAG officiel</span><span class="feat-tag">Zéro hallucination</span></div>
+    </div>
+    <div class="feat">
+      <div class="feat-icon">📖</div>
+      <h3>Traducteur Anti-Jargon</h3>
+      <p>Photographiez n'importe quel courrier admin, l'IA le traduit en 3 niveaux : texte original, version simple (FALC), urgence à retenir avec date butoir et action requise.</p>
+      <div class="feat-tags"><span class="feat-tag">OCR Gemini</span><span class="feat-tag">Mode FALC</span><span class="feat-tag">3 niveaux</span></div>
+    </div>
+    <div class="feat">
+      <div class="feat-icon">📝</div>
+      <h3>CERFA pré-remplis</h3>
+      <p>Catalogue de 1 800+ formulaires CERFA officiels (DGFiP, ANTS, MDPH, CAF...). 17 champs remplis automatiquement en 0,4 seconde depuis votre coffre-fort.</p>
+      <div class="feat-tags"><span class="feat-tag">1 800+ CERFA</span><span class="feat-tag">Auto-remplissage</span></div>
+    </div>
+    <div class="feat">
+      <div class="feat-icon">🔒</div>
+      <h3>Coffre-fort chiffré AES-256</h3>
+      <p>74 catégories de documents administratifs. Chiffrement de bout en bout. Personne d'autre que vous ne peut les lire — pas même nos administrateurs.</p>
+      <div class="feat-tags"><span class="feat-tag">AES-256</span><span class="feat-tag">Multi-tenant</span><span class="feat-tag">Souverain</span></div>
+    </div>
+    <div class="feat">
+      <div class="feat-icon">✉️</div>
+      <h3>Lettre Recommandée Électronique</h3>
+      <p>LRE AR24 (La Poste) avec preuve de dépôt eIDAS qualifiée. Pleine valeur juridique pour 4,68 € / envoi. Idéal pour contestations, mises en demeure, résiliations.</p>
+      <div class="feat-tags"><span class="feat-tag">AR24 La Poste</span><span class="feat-tag">eIDAS qualifié</span></div>
+    </div>
+    <div class="feat">
+      <div class="feat-icon">🖱️</div>
+      <h3>Agent clic-par-clic</h3>
+      <p>L'IA navigue les sites publics (impots.gouv, ameli, caf, ants) à votre place. Mode co-pilote : vous validez chaque action sensible avant l'envoi.</p>
+      <div class="feat-tags"><span class="feat-tag">Co-pilote</span><span class="feat-tag">FranceConnect+</span></div>
+    </div>
+    <div class="feat">
+      <div class="feat-icon">📧</div>
+      <h3>Boîte mail intégrée</h3>
+      <p>Tous vos courriers admin (reçus, envoyés, LRE, brouillons) au même endroit. Recherche rapide, classement automatique, recherche dans le contenu.</p>
+      <div class="feat-tags"><span class="feat-tag">Multi-comptes</span><span class="feat-tag">OAuth2</span></div>
+    </div>
+    <div class="feat">
+      <div class="feat-icon">🤖</div>
+      <h3>Sophie · Agent IA emails 24h/24</h3>
+      <p>Surveille vos boîtes mail, classe automatiquement, extrait les infos critiques (montant, délai, action), vous alerte sur l'urgent et archive le reste.</p>
+      <div class="feat-tags"><span class="feat-tag">24h/24</span><span class="feat-tag">Anti-phishing</span><span class="feat-tag">Auto-classement</span></div>
+    </div>
+  </div>
+</div></section>
+
+<section style="background:var(--gris-soft);"><div class="container text-center">
+  <span class="section-tag">Bonus inclus</span>
+  <h2>Et aussi…</h2>
+  <div class="feat-grid mt-4">
+    <div class="feat"><div class="feat-icon">👨‍👩‍👧</div><h3>Mode aidant familial</h3><p>Gérez les démarches de vos proches (parents âgés, enfants mineurs) avec leur consentement et procuration. Jusqu'à 50 personnes en plan Pro.</p></div>
+    <div class="feat"><div class="feat-icon">💰</div><h3>Détection d'aides oubliées</h3><p>Croisement de votre profil avec les bases d'aides publiques. Détection automatique des aides auxquelles vous avez droit (prime activité, chèque énergie, MaPrimeRénov, etc.).</p></div>
+    <div class="feat"><div class="feat-icon">⏰</div><h3>Échéances & rappels</h3><p>L'IA détecte tous les délais administratifs (contestation, renouvellement, déclaration). Rappels J-30, J-7, J-1 par notification et email.</p></div>
+    <div class="feat"><div class="feat-icon">♿</div><h3>Accessibilité universelle</h3><p>Mode senior (texte agrandi 1,5×), contraste élevé, lecture vocale de toute la page, sous-titres vidéo. Pensé pour 8 à 95 ans.</p></div>
+  </div>
+</div></section>
+
+<section style="background:linear-gradient(135deg,var(--bleu),var(--bleu-clair));color:white;text-align:center;"><div class="container">
+  <h2 style="color:white;">Prêt à essayer ?</h2>
+  <p style="color:rgba(255,255,255,0.9);font-size:18px;max-width:600px;margin:0 auto 32px;">14 jours gratuits, sans carte bancaire. Aucun engagement.</p>
+  <a href="inscription.html" class="btn btn-lg" style="background:white;color:var(--bleu);">🔐 Démarrer gratuitement</a>
+</div></section>
+
+<footer class="site-footer">
+  <div class="site-footer-grid">
+    <div><div class="site-footer-brand"><div class="site-nav-mark"></div>Simplif'IA France</div><p style="margin-bottom:14px;font-size:14px;">Le guichet unique administratif assisté par IA.</p></div>
+    <div><h4>Produit</h4><ul><li><a href="fonctionnalites.html">Fonctionnalités</a></li><li><a href="tarifs.html">Tarifs</a></li><li><a href="app.html">Démo</a></li><li><a href="api.html">API</a></li></ul></div>
+    <div><h4>Société</h4><ul><li><a href="apropos.html">À propos</a></li><li><a href="blog.html">Blog</a></li><li><a href="contact.html">Contact</a></li><li><a href="aide.html">Aide</a></li></ul></div>
+    <div><h4>Légal</h4><ul><li><a href="cgu.html">CGU</a></li><li><a href="confidentialite.html">Confidentialité</a></li><li><a href="mentions-legales.html">Mentions légales</a></li><li><a href="cookies.html">Cookies</a></li></ul></div>
+  </div>
+  <div class="site-footer-bottom"><div>© 2026 Simplif'IA France</div><div>🇫🇷 Made in France · RGPD</div></div>
+</footer>
+</body></html>
